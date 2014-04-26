@@ -148,9 +148,12 @@
             	var usersRef = new Firebase("https://hvz-utulsa.firebaseio.com/users");
             	var exists = false;
             	usersRef.child(userId).once('value', function(state) {
-            		exists = state.val() !== null;
+            		exists = state.val() != null;
             		console.log(here);
+            		console.log(exists);
+            		console.log(state.val());
             	});
+            	console.log(exists);
             	return exists;
             }
         </script>
