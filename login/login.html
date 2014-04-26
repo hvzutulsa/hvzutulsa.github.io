@@ -19,7 +19,6 @@
                     console.log(user);
                     saveUserCredentials(user);
                     if (userRegistered(localStorage.id)) {
-                    	redirect();
                     } else {
                     	registerUser(user, user.thirdPartyUserData, localStorage.id);
                     }
@@ -81,7 +80,7 @@
                 	userInfo.email = userData.email;
                 } else if (user.provider == 'github') {
                 	userInfo.name.first = userData.displayName.split(" ")[0];
-                	userInfo.name.last = userData.displayName.split(" ")[1] != "undefined" ? userData.displayName.split(" ")[1] : "" ;
+                	userInfo.name.last = userData.displayName.indexOf(" ") > 0 ? userData.displayName.split(" ")[1] : "" ;
                 	if (userData.displayName != "") {
                 		userInfo.displayName = userData.displayName;
                 	} else if (user.username != "") {
@@ -115,7 +114,6 @@
                 	}
                 }
                 userRef.set(userInfo);
-                redirect();
             }
 
             function saveUserCredentials(user) {
