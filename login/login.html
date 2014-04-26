@@ -31,10 +31,22 @@
                 });
             }
 
+            function facebookLogin() {
+            	auth.login('facebook');
+            }
+
+            function githubLogin() {
+            	auth.login('github');
+            }
+
             function googleLogin() {
             	auth.login('google', {
             		scope: "https://www.googleapis.com/auth/plus.login"
             	});
+            }
+
+            function twitterLogin() {
+            	auth.login('twitter');
             }
 
             function saveUserCredentials(userId) {
@@ -65,6 +77,7 @@
 			<div class="panel-body">
 				<div class="text-center">
 					<button onclick="facebookLogin()" class="btn btn-primary"><span class="fa fa-facebook"></span> Facebook</button>
+					<button onclick="githubLogin()" class="btn btn-success"><span class="fa fa-github"></span> Github</button>
 					<button onclick="googleLogin()" class="btn btn-danger"><span class="fa fa-google-plus"></span> Google</button>
 					<button onclick="twitterLogin()" class="btn btn-info"><span class="fa fa-twitter"></span> Twitter</button>
 				</div>
