@@ -1,0 +1,156 @@
+<html>
+    <head>
+        <link type="text/css" rel="stylesheet" href="../css/bootstrap/css/bootstrap.min.css"/>
+        <link type="text/css" rel="stylesheet" href="../css/register_stylesheet.css"/>
+        <title>Humans vs Zombies - Utulsa</title>
+        <script type="text/javascript" src='https://cdn.firebase.com/js/client/1.0.11/firebase.js'></script>
+        <script type="text/javascript" src='https://cdn.firebase.com/js/simple-login/1.3.2/firebase-simple-login.js'></script>
+        <script type="text/javascript">
+            var firebaseRef = new Firebase("https://hvz-utulsa.firebaseio.com");
+            var auth = new FirebaseSimpleLogin(firebaseRef, function(error, user) {
+                if (error) {
+                    // an error occurred when the user attempted to login
+                    if (typeof(localStorage) != undefined) {
+                        localStorage.clear();
+                    }
+                }
+            });
+            
+            function createUser(email, password) {
+                auth.createUser(email, password, function(error, user) {
+                    if (!error) {
+                        saveUser(user.email);
+                        if (typeof(localStorage) != undefined) {
+                            saveUserCredentials(user.email);   
+                        }
+                        window.location = "../home/home.html";
+                    } else {
+                        // an error occurred when the user attempted to login
+                        if (typeof(localStorage) != undefined) {
+                            localStorage.clear();
+                        }
+                    }
+                });
+            }
+
+            function validateForm() {
+                var valid = true;
+
+                var firstName = document.getElementById("firstName");
+                var lastName = document.getElementById("lastName");
+                if (firstName.value == '') {
+                    document.getElementById("firstNameDiv").className += " " + "has-error";
+                    firstName.className += " " + "error";
+                    valid = false;
+                }
+                if (lastName.value == '') {
+                    document.getElementById("lastNameDiv").className += " " + "has-error";
+                    lastName.className += " " + "error";
+                    valid = false;
+                }
+
+                var phoneNumber = document.getElementById("phoneNumber");
+                if (phoneNumber.value != '' && !(phoneNumber.value.match(/\d{10}$|\d{3}-\d{3}-\d{4}$|\(\d{3}\) \d{3}\d{4}$|\(\d{3}\) \d{3}-\d{4}$/))) {
+                    document.getElementById("phoneNumberDiv").className += " " + "has-error";
+                    phoneNumber.className += " " + "error";
+                    valid = false;
+                }
+
+                var inputEmail = document.getElementById("inputEmail");
+                var confirmEmail = document.getElementById("confirmEmail");
+                if (inputEmail.value == '' || inputEmail.value.indexOf('@') < 1 || inputEmail.value.indexOf('.') < 3) {
+                    document.getElementById("inputEmailDiv").className += " " + "has-error";
+                    inputEmail.className += " " + "error";
+                    valid = false;
+                }
+                if (confirmEmail.value == '' || inputEmail.value != confirmEmail.value) {
+                    document.getElementById("inputEmailDiv").className += " " + "has-error";
+                    inputEmail.className += " " + "error";
+                    document.getElementById("confirmEmailDiv").className += " " + "has-error";
+                    confirmEmail.className += " " + "error";
+                    valid = false;
+                }
+
+                var inputPassword = document.getElementById("inputPassword");
+                var confirmPassword = document.getElementById("confirmPassword");
+                if (confirmPassword.value == '' || inputPassword.value != confirmPassword.value) {
+                    document.getElementById("inputPasswordDiv").className += " " + "has-error";
+                    inputPassword.className += " " + "error";
+                    document.getElementById("confirmPasswordDiv").className += " " + "has-error";
+                    confirmPassword.className += " " + "error";
+                    valid = false;
+                }
+
+                if (valid) {
+                    createUser(inputEmail.value, inputPassword.value);
+                }
+            }
+
+            function saveUser(userEmail) {
+                var usersRef = new Firebase("https://hvz-utulsa.firebaseio.com/users/" + userEmail.replace(".", "-"));
+                var userInfo = {
+                    name: {
+                        first: document.getElementById("firstName").value,
+                        middle: document.getElementById("mi").value,
+                        last: document.getElementById("lastName").value
+                    },
+                    phone: document.getElementById("phoneNumber").value,
+                    email: userEmail
+                };
+                usersRef.set(userInfo);
+            }
+
+            function saveUserCredentials(userId) {
+                if (typeof(localStorage) != undefined) {
+                    localStorage.id = userId;
+                }
+            }
+        </script>
+    </head>
+    
+    <body>
+        <div id="registrationPanel" class="panel panel-default">
+            <div class="panel-body">
+                <div class="text-center">
+                    <h1>Register</h1>
+                </div>
+                <form role="form">
+                    <form class="form-inline" role="form">
+                        <div id="firstNameDiv" class="form-group col-md-5">
+                            <input id="firstName" type="text" class="form-control" placeholder="*First Name">
+                        </div>
+                        <div class="form-group col-md-2">
+                            <input id="mi" type="text" class="form-control" placeholder="MI">
+                        </div>
+                        <div id="lastNameDiv" class="form-group col-md-5">
+                            <input id="lastName" type="text" class="form-control" placeholder="*Last Name">
+                        </div>
+                    </form>
+                    <div id="phoneNumberDiv" class="form-group col-md-12">
+                        <input id="phoneNumber" type="text" class="form-control bfh-phone" placeholder="Phone Number">
+                    </div>
+                    <div id="inputEmailDiv" class="form-group col-md-12">
+                        <input id="inputEmail" type="email" class="form-control" placeholder="*Email Address">
+                    </div>
+                    <div id="confirmEmailDiv" class="form-group col-md-12">
+                        <input id="confirmEmail" type="email" class="form-control" placeholder="*Confirm Email Address">
+                    </div>
+                    <div id="inputPasswordDiv" class="form-group col-md-12">
+                        <input id="inputPassword" type="password" class="form-control" placeholder="*Password">
+                    </div>
+                    <div id="confirmPasswordDiv" class="form-group col-md-12">
+                        <input id="confirmPassword" type="password" class="form-control" placeholder="*Confirm Password">
+                    </div>
+                    <div class="form-group col-md-12">
+                        <div class="checkbox">
+                            <label><input id="rememberMe" type="checkbox"> Remember me</label>
+                        </div>
+                    </div>
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-primary" onclick="validateForm()">Register</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </body>
+</html>

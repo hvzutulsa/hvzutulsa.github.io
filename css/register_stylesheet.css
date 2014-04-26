@@ -1,0 +1,14 @@
+#registrationPanel {
+	width: 40%;
+	height: auto;
+	margin: auto;
+	margin-top: 10%;
+}
+
+#mi {
+	width: 100%;
+}
+
+.error {
+	color: red;
+}

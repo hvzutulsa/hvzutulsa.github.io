@@ -1,0 +1,74 @@
+<html>
+	<head>
+		<link type="text/css" rel="stylesheet" href="../css/bootstrap/css/bootstrap.min.css"/>
+		<link type="text/css" rel="stylesheet" href="../css/font-awesome/css/font-awesome.min.css"/>
+		<link type="text/css" rel="stylesheet" href="../css/login_stylesheet.css"/>
+		<title>Humans vs Zombies - Utulsa</title>
+		<script type="text/javascript" src='https://cdn.firebase.com/js/client/1.0.11/firebase.js'></script>
+        <script type="text/javascript" src='https://cdn.firebase.com/js/simple-login/1.3.2/firebase-simple-login.js'></script>
+        <script type="text/javascript">
+            var firebaseRef = new Firebase("https://hvz-utulsa.firebaseio.com/");
+            var auth = new FirebaseSimpleLogin(firebaseRef, function(error, user) {
+            	if (error) {
+            		// an error occurred when the user attempted to login
+                    if (typeof(localStorage) != undefined) {
+                        localStorage.clear();
+                    }
+				} else if (user) {
+				    // user authenticated with Firebase
+				    if (auth.email != undefined) {
+				    	saveUserCredentials(auth.email);
+				    } else {
+				    	saveUserCredentials(user.email);
+				    }
+				    window.location = "../home/home.html";
+				}
+            });
+            function localLogin() {
+            	auth.login('password', {
+                	email: document.getElementById("userEmail").value,
+                	password: document.getElementById("userPassword").value
+                });
+            }
+
+            function googleLogin() {
+            	auth.login('google', {
+            		scope: "https://www.googleapis.com/auth/plus.login"
+            	});
+            }
+
+            function saveUserCredentials(userId) {
+            	if (typeof(localStorage) != undefined) {
+                    localStorage.id = userId;
+                }
+            }
+        </script>
+	</head>
+
+	<body>
+		<div id="loginPanel" class="panel-body">
+			<div class="text-center">
+				<h1>Login</h1>
+			</div>
+			<form role="form">
+				<div class="form-group">
+					<input id="userEmail" type="email" class="form-control" placeholder="Email Address">
+				</div>
+				<div class="form-group">
+					<input id="userPassword" type="password" class="form-control" placeholder="Password">
+				</div>
+				<div class="text-center">
+					<button type="button" class="btn btn-primary" onclick="localLogin()">Login</button>
+					<a href="../register/register.html" class="btn btn-primary">Register</a>
+				</div>
+			</form>
+			<div class="panel-body">
+				<div class="text-center">
+					<button onclick="facebookLogin()" class="btn btn-primary"><span class="fa fa-facebook"></span> Facebook</button>
+					<button onclick="googleLogin()" class="btn btn-danger"><span class="fa fa-google-plus"></span> Google</button>
+					<button onclick="twitterLogin()" class="btn btn-info"><span class="fa fa-twitter"></span> Twitter</button>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

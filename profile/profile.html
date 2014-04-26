@@ -1,0 +1,65 @@
+<html>
+    <head>
+        <link type="text/css" rel="stylesheet" href="../css/bootstrap/css/bootstrap.min.css"/>
+        <link type="text/css" rel="stylesheet" href="../css/profile_stylesheet.css"/>
+        <title>Humans vs Zombies - Utulsa</title>
+        <script type="text/javascript" src='https://cdn.firebase.com/js/client/1.0.11/firebase.js'></script>
+        <script type="text/javascript" src='https://cdn.firebase.com/js/simple-login/1.3.2/firebase-simple-login.js'></script>
+        <script type="text/javascript">
+            var firebaseRef = new Firebase("https://hvz-utulsa.firebaseio.com");
+            var auth = new FirebaseSimpleLogin(firebaseRef, function(error, user) {
+                if (error) {
+                    // an error occurred when the user attempted to login
+                    if (typeof(localStorage) != undefined) {
+                        localStorage.clear();
+                    }
+                }
+            });
+        </script>
+    </head>
+    
+    <body>
+        <div id="profilePanel" class="panel panel-default">
+            <div class="panel-body">
+                <div class="text-center">
+                    <h1>Profile</h1>
+                </div>
+                <form role="form">
+                    <form class="form-inline" role="form">
+                        <div id="firstNameDiv" class="form-group col-md-5">
+                            <input id="firstName" type="text" class="form-control" placeholder="*First Name">
+                        </div>
+                        <div class="form-group col-md-2">
+                            <input id="mi" type="text" class="form-control" placeholder="MI">
+                        </div>
+                        <div id="lastNameDiv" class="form-group col-md-5">
+                            <input id="lastName" type="text" class="form-control" placeholder="*Last Name">
+                        </div>
+                    </form>
+                    <div id="phoneNumberDiv" class="form-group col-md-12">
+                        <input id="phoneNumber" type="text" class="form-control bfh-phone" placeholder="Phone Number">
+                    </div>
+                    <div id="inputEmailDiv" class="form-group col-md-12">
+                        <input id="inputEmail" type="email" class="form-control" placeholder="*Email Address">
+                    </div>
+                    <div class="text-center">
+                        <a href="../home/home.html" class="btn btn-primary">Home</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <script type="text/javascript">
+            if (typeof(localStorage) != undefined) {
+                userId = localStorage.id;
+                var userRef = new Firebase("https://hvz-utulsa.firebaseio.com/users/" + userId.replace(".","-"));
+                userRef.on('value', function(state) {
+                    document.getElementById("firstName").placeholder = state.val().name.first;
+                    document.getElementById("mi").placeholder = state.val().name.middle;
+                    document.getElementById("lastName").placeholder = state.val().name.last;
+                    document.getElementById("phoneNumber").placeholder = state.val().phone;
+                    document.getElementById("inputEmail").placeholder = state.val().email;
+                });
+            }
+        </script>
+    </body>
+</html>
