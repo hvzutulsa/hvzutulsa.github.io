@@ -17,13 +17,20 @@
 				} else if (user) {
 				    // user authenticated with Firebase
                     saveUserCredentials(user);
-                    if (userRegistered(localStorage.id)) {
-                    	redirect();
-                    } else {
-                    	registerUser(user, user.thirdPartyUserData, localStorage.id);
-                    }
+                    checkUserRegistered(user, localStorage.id);
 				}
             });
+
+            function checkUserRegistered(user, userId) {
+            	var usersRef = new Firebase("https://hvz-utulsa.firebaseio.com/users");
+            	usersRef.child(userId).once('value', function(state) {
+            		if (state.val() !== null) {
+            			redirect();
+            		} else {
+            			registerUser(user, user.thirdPartyUserData, userId);
+            		}
+            	});
+            }
 
             function facebookLogin() {
             	auth.login('facebook', {
@@ -85,7 +92,7 @@
                 	} else {
                 		userInfo.name.first = user.displayName;
                 	}
-                	if (userData.displayName != "") {
+                	if (user.displayName != "") {
                 		userInfo.displayName = user.displayName;
                 	} else if (user.username != "") {
                 		userInfo.displayName = user.username;
@@ -142,19 +149,6 @@
 
             function twitterLogin() {
             	auth.login('twitter');
-            }
-
-            function userRegistered(userId) {
-            	var usersRef = new Firebase("https://hvz-utulsa.firebaseio.com/users");
-            	var exists = false;
-            	usersRef.child(userId).once('value', function(state) {
-            		exists = (state.val() !== null);
-            		console.log("here");
-            		console.log(exists);
-            		console.log(state.val());
-            	});
-            	console.log(exists);
-            	return exists;
             }
         </script>
 	</head>
