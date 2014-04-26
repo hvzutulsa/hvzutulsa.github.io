@@ -1,0 +1,47 @@
+Facebook
+	id: email,
+	name {
+		first: thirdPartyUserData.first_name,
+		middle:
+		last: thirdPartyUserData.last_name
+	},
+	displayName: displayName ? thirdPartyUserData.name ? thirdPartyUserData.email,
+	phone:
+	email: thirdPartyUserData.email,
+	picture:
+
+Github
+	id: email,
+	name {
+		first: thirdPartyUserData.displayName.split(" ")[0],
+		middle:
+		last: thirdPartyUserData.displayName.split(" ")[1]
+	},
+	displayName: displayName ? username ? thirdPartyUserData.emails[0].email,
+	phone:
+	email: thirdPartyUserData.emails[0].email,
+	picture: thirdPartyUserData.avatar_url
+
+Google
+	id: email,
+	name {
+		first: thirdPartyUserData.given_name,
+		middle:
+		last: thirdPartyUserData.family_name
+	},
+	displayName: displayName ? thirdPartyUserData.name ? email,
+	phone:
+	email: email
+	picture: thirdPartyUserData.picture
+
+Twitter
+	id: username,
+	name {
+		first: displayName.split(" ")[0],
+		middle:
+		last: displayName.split(" ")[1]
+	},
+	displayName: displayName ? username ? "(John | Jane) Doe",
+	phone:
+	email:
+	picture:

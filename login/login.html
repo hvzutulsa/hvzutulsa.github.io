@@ -18,15 +18,13 @@
 				    // user authenticated with Firebase
                     console.log(user);
                     saveUserCredentials(user);
+                    if (userRegistered(localStorage.id)) {
+                    	redirect();
+                    } else {
+                    	registerUser(user, user.thirdPartyUserData, localStorage.id);
+                    }
 				}
             });
-            
-            function localLogin() {
-            	auth.login('password', {
-                	email: document.getElementById("userEmail").value,
-                	password: document.getElementById("userPassword").value
-                });
-            }
 
             function facebookLogin() {
             	auth.login('facebook', {
@@ -45,25 +43,108 @@
             		scope: "https://www.googleapis.com/auth/plus.login, profile, email"
             	});
             }
+            
+            function localLogin() {
+            	auth.login('password', {
+                	email: document.getElementById("userEmail").value,
+                	password: document.getElementById("userPassword").value
+                });
+            }
+
+			function redirect() {
+				window.location = "../home/home.html";
+			}           
+
+            function registerUser(user, userData, userId) {
+            	var userRef = new Firebase("https://hvz-utulsa.firebaseio.com/users/" + userId);
+                var userInfo = {
+                    name: {
+                        first: "",
+                        middle: "",
+                        last: ""
+                    },
+                    displayName: "",
+                    picture: "",
+                    phone: "",
+                    email: ""
+                };
+                if (user.provider == 'facebook') {
+                	userInfo.name.first = userData.first_name;
+                	userInfo.name.last = userData.last_name;
+                	if (user.displayName != "") {
+                		userInfo.displayName = user.displayName;
+                	} else if (userData.name != "") {
+                		userInfo.displayName = userData.name;
+                	} else {
+                		userInfo.displayName = userData.email;
+                	}
+                	userInfo.email = userData.email;
+                } else if (user.provider == 'github') {
+                	userInfo.name.first = userData.displayName.split(" ")[0];
+                	userInfo.name.last = userData.displayName.split(" ")[1] != "undefined" ? userData.displayName.split(" ")[1] : "" ;
+                	if (userData.displayName != "") {
+                		userInfo.displayName = userData.displayName;
+                	} else if (user.username != "") {
+                		userInfo.displayName = userInfo;
+                	} else {
+                		userInfo.displayName = userData.emails[0].email;
+                	}
+                	userInfo.picture = userData.avatar_url;
+                	userInfo.email = userData.emails[0].email;
+                } else if (user.provider == 'google') {
+                	userInfo.name.first = userData.given_name;
+                	userInfo.name.last = userData.family_name;
+                	if (user.displayName != "") {
+                		userInfo.displayName = user.displayName;
+                	} else if (userData.name != "") {
+                		userInfo.displayName = userData.name;
+                	} else {
+                		userInfo.displayName = user.email;
+                	}
+                	userInfo.picture = userData.picture;
+                	userInfo.email = user.email;
+                } else if (user.provider == 'twitter') {
+                	userInfo.name.first = user.displayName.split(" ")[0];
+                	userInfo.name.last = user.displayName.split(" ")[1] != "undefined" ? user.displayName.split(" ")[1] : "" ;
+                	if (user.displayName != "") {
+                		userInfo.displayName = user.displayName;
+                	} else if (user.username != "") {
+                		userInfo.displayName = user.username;
+                	} else {
+                		userInfo.displayName = "(John | Jane) Doe";
+                	}
+                }
+                userRef.set(userInfo);
+                redirect();
+            }
+
+            function saveUserCredentials(user) {
+            	if (typeof(localStorage) != undefined) {
+            		if (user.provider == 'password') {
+                    	localStorage.id = user.email.replace(".", "-");
+                    } else if (user.provider == 'facebook') {
+                    	localStorage.id = user.thirdPartyUserData.email.replace(".", "-");
+                    } else if (user.provider == 'github') {
+                    	localStorage.id = user.thirdPartyUserData.emails[0].email.replace(".", "-");
+                    } else if (user.provider == 'google') {
+                    	localStorage.id = user.email.replace(".", "-");
+                    } else if (user.provider == 'twitter') {
+                    	localStorage.id = user.username;
+                    }
+                }
+            }
 
             function twitterLogin() {
             	auth.login('twitter');
             }
 
-            function saveUserCredentials(userId) {
-            	if (typeof(localStorage) != undefined) {
-            		if (user.provider == 'password') {
-                    	localStorage.id = userId;
-                    } else if (user.provider == 'facebook') {
-
-                    } else if (user.provider == 'github') {
-
-                    } else if (user.provider == 'google') {
-
-                    } else if (user.provider == 'twitter') {
-                    	
-                    }
-                }
+            function userRegistered(userId) {
+            	var usersRef = new Firebase("https://hvz-utulsa.firebaseio.com/users");
+            	var exists = false;
+            	usersRef.child(userId).once('value', function(state) {
+            		exists = state.val() !== null;
+            	});
+            	return exists;
             }
         </script>
 	</head>

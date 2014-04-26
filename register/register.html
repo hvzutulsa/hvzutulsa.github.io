@@ -86,18 +86,20 @@
                 }
             }
 
-            function saveUser(userEmail) {
-                var usersRef = new Firebase("https://hvz-utulsa.firebaseio.com/users/" + userEmail.replace(".", "-"));
+            function saveUser(userId) {
+                var userRef = new Firebase("https://hvz-utulsa.firebaseio.com/users/" + userId.replace(".", "-"));
                 var userInfo = {
                     name: {
                         first: document.getElementById("firstName").value,
                         middle: document.getElementById("mi").value,
                         last: document.getElementById("lastName").value
                     },
+                    displayName: document.getElementById("firstName").value,
+                    picture: "",
                     phone: document.getElementById("phoneNumber").value,
-                    email: userEmail
+                    email: userId
                 };
-                usersRef.set(userInfo);
+                userRef.set(userInfo);
             }
 
             function saveUserCredentials(userId) {
