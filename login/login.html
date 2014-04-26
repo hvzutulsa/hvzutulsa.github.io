@@ -16,12 +16,13 @@
                     }
 				} else if (user) {
 				    // user authenticated with Firebase
+                    console.log(user);
+                    console.log(auth);
 				    if (auth.email != undefined) {
 				    	saveUserCredentials(auth.email);
 				    } else {
 				    	saveUserCredentials(user.email);
 				    }
-				    window.location = "../home/home.html";
 				}
             });
             function localLogin() {
