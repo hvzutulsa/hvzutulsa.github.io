@@ -80,8 +80,12 @@
                 	}
                 	userInfo.email = userData.email;
                 } else if (user.provider == 'github') {
-                	userInfo.name.first = userData.displayName.split(" ")[0];
-                	userInfo.name.last = userData.displayName.indexOf(" ") > 0 ? userData.displayName.split(" ")[1] : "" ;
+                	if (userData.displayName.indexOf(" ") > 0) {
+                		userInfo.name.first = userData.displayName.split(" ")[0];
+                		userInfo.name.last = userData.displayName.split(" ")[1];
+                	} else {
+                		userInfo.name.first = userData.displayName;
+                	}
                 	if (userData.displayName != "") {
                 		userInfo.displayName = userData.displayName;
                 	} else if (user.username != "") {
@@ -104,8 +108,12 @@
                 	userInfo.picture = userData.picture;
                 	userInfo.email = user.email;
                 } else if (user.provider == 'twitter') {
-                	userInfo.name.first = user.displayName.split(" ")[0];
-                	userInfo.name.last = user.displayName.split(" ")[1] != "undefined" ? user.displayName.split(" ")[1] : "" ;
+                	if (user.displayName.indexOf(" ") > 0) {
+                		userInfo.name.first = user.displayName.split(" ")[0];
+                		userInfo.name.last = user.displayName.split(" ")[1];
+                	} else {
+                		userInfo.name.first = user.displayName;
+                	}
                 	if (user.displayName != "") {
                 		userInfo.displayName = user.displayName;
                 	} else if (user.username != "") {
