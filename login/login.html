@@ -17,12 +17,7 @@
 				} else if (user) {
 				    // user authenticated with Firebase
                     console.log(user);
-                    console.log(auth);
-				    if (auth.email != undefined) {
-				    	saveUserCredentials(auth.email);
-				    } else {
-				    	saveUserCredentials(user.email);
-				    }
+                    saveUserCredentials(user);
 				}
             });
             
@@ -34,16 +29,20 @@
             }
 
             function facebookLogin() {
-            	auth.login('facebook');
+            	auth.login('facebook', {
+            		scope: "basic_info, email"
+            	});
             }
 
             function githubLogin() {
-            	auth.login('github');
+            	auth.login('github', {
+            		scope: "user"
+            	});
             }
 
             function googleLogin() {
             	auth.login('google', {
-            		scope: "https://www.googleapis.com/auth/plus.login"
+            		scope: "https://www.googleapis.com/auth/plus.login, profile, email"
             	});
             }
 
@@ -53,7 +52,17 @@
 
             function saveUserCredentials(userId) {
             	if (typeof(localStorage) != undefined) {
-                    localStorage.id = userId;
+            		if (user.provider == 'password') {
+                    	localStorage.id = userId;
+                    } else if (user.provider == 'facebook') {
+
+                    } else if (user.provider == 'github') {
+
+                    } else if (user.provider == 'google') {
+
+                    } else if (user.provider == 'twitter') {
+                    	
+                    }
                 }
             }
         </script>
