@@ -13,17 +13,20 @@
                     if (typeof(localStorage) != undefined) {
                         localStorage.clear();
                     }
+                } else if (user) {
+                    redirect();
                 }
             });
             
-            function createUser(email, password) {
-                auth.createUser(email, password, function(error, user) {
+            function createUser(userEmail, userPassword) {
+                auth.createUser(userEmail, userPassword, function(error, user) {
                     if (!error) {
-                        saveUser(user.email);
-                        if (typeof(localStorage) != undefined) {
-                            saveUserCredentials(user.email);   
-                        }
-                        window.location = "../home/home.html";
+                        saveUser(user.email.replace(".", "-"), user.email);
+                        saveUserCredentials(user.email.replace(".", "-"));   
+                        auth.login('password', {
+                            email: userEmail,
+                            password: userPassword
+                        });
                     } else {
                         // an error occurred when the user attempted to login
                         if (typeof(localStorage) != undefined) {
@@ -31,6 +34,32 @@
                         }
                     }
                 });
+            }
+
+            function redirect() {
+                window.location = "../home/home.html";
+            }
+
+            function saveUser(userId, userEmail) {
+                var userRef = new Firebase("https://hvz-utulsa.firebaseio.com/users/" + userId;
+                var userInfo = {
+                    name: {
+                        first: document.getElementById("firstName").value,
+                        middle: document.getElementById("mi").value,
+                        last: document.getElementById("lastName").value
+                    },
+                    displayName: document.getElementById("firstName").value,
+                    picture: "",
+                    phone: document.getElementById("phoneNumber").value,
+                    email: userEmail
+                };
+                userRef.set(userInfo);
+            }
+
+            function saveUserCredentials(userId) {
+                if (typeof(localStorage) != undefined) {
+                    localStorage.id = userId;
+                }
             }
 
             function validateForm() {
@@ -83,28 +112,6 @@
 
                 if (valid) {
                     createUser(inputEmail.value, inputPassword.value);
-                }
-            }
-
-            function saveUser(userId) {
-                var userRef = new Firebase("https://hvz-utulsa.firebaseio.com/users/" + userId.replace(".", "-"));
-                var userInfo = {
-                    name: {
-                        first: document.getElementById("firstName").value,
-                        middle: document.getElementById("mi").value,
-                        last: document.getElementById("lastName").value
-                    },
-                    displayName: document.getElementById("firstName").value,
-                    picture: "",
-                    phone: document.getElementById("phoneNumber").value,
-                    email: userId
-                };
-                userRef.set(userInfo);
-            }
-
-            function saveUserCredentials(userId) {
-                if (typeof(localStorage) != undefined) {
-                    localStorage.id = userId;
                 }
             }
         </script>

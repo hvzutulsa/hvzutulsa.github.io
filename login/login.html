@@ -19,6 +19,7 @@
                     console.log(user);
                     saveUserCredentials(user);
                     if (userRegistered(localStorage.id)) {
+                    	redirect();
                     } else {
                     	registerUser(user, user.thirdPartyUserData, localStorage.id);
                     }
@@ -114,6 +115,7 @@
                 	}
                 }
                 userRef.set(userInfo);
+                redirect();
             }
 
             function saveUserCredentials(user) {
