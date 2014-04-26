@@ -16,13 +16,11 @@
                     }
 				} else if (user) {
 				    // user authenticated with Firebase
-                    console.log(user);
                     saveUserCredentials(user);
                     if (userRegistered(localStorage.id)) {
                     	redirect();
                     } else {
                     	registerUser(user, user.thirdPartyUserData, localStorage.id);
-                    	console.log("registered user");
                     }
 				}
             });
@@ -81,11 +79,11 @@
                 	}
                 	userInfo.email = userData.email;
                 } else if (user.provider == 'github') {
-                	if (userData.displayName.indexOf(" ") > 0) {
-                		userInfo.name.first = userData.displayName.split(" ")[0];
-                		userInfo.name.last = userData.displayName.split(" ")[1];
+                	if (user.displayName.indexOf(" ") > 0) {
+                		userInfo.name.first = user.displayName.split(" ")[0];
+                		userInfo.name.last = user.displayName.split(" ")[1];
                 	} else {
-                		userInfo.name.first = userData.displayName;
+                		userInfo.name.first = user.displayName;
                 	}
                 	if (userData.displayName != "") {
                 		userInfo.displayName = userData.displayName;
@@ -124,7 +122,6 @@
                 	}
                 }
                 userRef.set(userInfo);
-                redirect();
             }
 
             function saveUserCredentials(user) {
