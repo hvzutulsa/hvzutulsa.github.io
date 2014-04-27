@@ -16,11 +16,43 @@
                 }
             });
 
+            function accountActive() {
+                document.getElementById("profileTab").className = "hide";
+                document.getElementById("profileElement").className = "";
+                document.getElementById("passwordTab").className = "hide";
+                document.getElementById("passwordElement").className = "";
+                document.getElementById("emailTab").className = "hide";
+                document.getElementById("emailElement").className = "";
+                document.getElementById("accountTab").className = "";
+                document.getElementById("accountElement").className = "active";
+            }
+
+            function deleteAccount() {
+                var userId = localStorage.id;
+                var userRef = new Firebase("https://hvz-utusla.firebaseio.com/users/" + userId);
+
+                userRef.once('value', function(state) {
+                    auth.removeUser(state.val().email, document.getElementById("passwordDelete").value, function(error, success) {
+                        if (!error) {
+                            console.log("user deleted");
+                        } else {
+                            console.log(error);
+                        }
+                    });
+                });
+
+                userRef.remove();
+                auth.logout();
+                localStorage.id = undefined;
+            }
+
             function emailActive() {
                 document.getElementById("profileTab").className = "hide";
                 document.getElementById("profileElement").className = "";
                 document.getElementById("passwordTab").className = "hide";
                 document.getElementById("passwordElement").className = "";
+                document.getElementById("accountTab").className = "hide";
+                document.getElementById("accountElement").className = "";
                 document.getElementById("emailTab").className = "";
                 document.getElementById("emailElement").className = "active";
             }
@@ -38,6 +70,8 @@
                 document.getElementById("profileElement").className = "";
                 document.getElementById("emailTab").className = "hide";
                 document.getElementById("emailElement").className = "";
+                document.getElementById("accountTab").className = "hide";
+                document.getElementById("accountElement").className = "";
                 document.getElementById("passwordTab").className = "";
                 document.getElementById("passwordElement").className = "active";
             }
@@ -47,6 +81,8 @@
                 document.getElementById("emailElement").className = "";
                 document.getElementById("passwordTab").className = "hide";
                 document.getElementById("passwordElement").className = "";
+                document.getElementById("accountTab").className = "hide";
+                document.getElementById("accountElement").className = "";
                 document.getElementById("profileTab").className = "";
                 document.getElementById("profileElement").className = "active";
             }
@@ -73,7 +109,7 @@
                 var userId = localStorage.id;
                 var userRef = new Firebase("https://hvz-utulsa.firebaseio.com/users/" + userId);
                 userRef.once('value', function(state) {
-                    var valid = true;
+                    var valid = false;
 
                     var displayName = document.getElementById("displayName");
                     if (state.val().displayName != displayName.value) {
@@ -165,9 +201,11 @@
                             var firebaseRef = new Firebase("https://hvz-utulsa.firebaseio.com");
                             var auth = new FirebaseSimpleLogin(firebaseRef, function(error, user) {
                                 if (user) {
+                                    console.log(user);
                                     if (user.provider == 'password') {
                                         auth.changePassword(state.val().email, oldPassword.value, newPassword.value, function(error, success) {
                                             if (error) {
+                                                console.log(error);
                                                 document.getElementById("oldPasswordDiv").className += " " + "has-error";
                                                 oldPassword.className += " " + "error";
                                                 valid = false;
@@ -176,9 +214,11 @@
                                     } else {
                                         auth.createUser(state.val().email, newPassword.value, function(error, user) {
                                             if (error) {
+                                                console.log(error);
                                                 if (error.code == "EMAIL_TAKEN") {
                                                     auth.changePassword(state.val().email, oldPassword.value, newPassword.value, function(error, success) {
                                                         if (error) {
+                                                            console.log(error);
                                                             document.getElementById("oldPasswordDiv").className += " " + "has-error";
                                                             oldPassword.className += " " + "error";
                                                             valid = false;
@@ -315,6 +355,10 @@
                                 <td>Unconfirmed</td>
                                 <td><input id="unconfirmedTurns" type="text" class="form-control" placeholder="0" disabled></td>
                             </tr>
+                            <tr>
+                                <td style="text-align:center" colspan="2"><a href="#"><em>See all Stuns</em></a></td>
+                                <td style="text-align:center" colspan="2"><a href="#"><em>See all Turns</em></a></td>
+                            </tr>
                         </table>
                     </div>
                 </div>
@@ -325,6 +369,7 @@
                         <li id="profileElement" class="active"><a onclick="profileActive()">Profile</a></li>
                         <li id="emailElement"><a onclick="emailActive()">Email</a></li>
                         <li id="passwordElement"><a onclick="passwordActive()">Password</a></li>
+                        <li id="accountElement"><a onclick="accountActive()">Account</a></li>
                     </ul>
                     <div id="profileTab">
                         <form role="form">
@@ -357,13 +402,29 @@
                     <div id="passwordTab" class="hide">
                         <form role="form">
                             <div id="oldPasswordDiv" class="form-group col-md-12">
-                                <input id="oldPassword" type="password" class="form-control" placeholder="Current Password or none if not sure">
+                                <input id="oldPassword" type="password" class="form-control" placeholder="Current Password">
+                            </div>
+                           <div class="form-group col-sm-12">
+                                <label><em>*Use 'none' for the current password if you have not registered a password to this site</em></label>
                             </div>
                             <div id="newPasswordDiv" class="form-group col-md-12">
                                 <input id="newPassword" type="password" class="form-control" placeholder="New Password">
                             </div>
                             <div id="confirmPasswordDiv" class="form-group col-md-12">
                                 <input id="confirmPassword" type="password" class="form-control" placeholder="Confirm New Password">
+                            </div>
+                        </form>
+                    </div>
+                    <div id="accountTab" class="hide">
+                        <form role="form">
+                            <div class="form-group col-md-2">
+                                <button type="button" class="btn btn-danger" onclick="deleteAccount()">Delete Account</button>
+                            </div>
+                            <div class="form-group col-md-10">
+                                <input id="passwordDelete" type="text" class="form-control" placeholder="Current Password">
+                            </div>
+                            <div class="form-group col-sm-12">
+                                <label><em>*Use 'none' for the current password if you have not registered a password to this site</em></label>
                             </div>
                         </form>
                     </div>
