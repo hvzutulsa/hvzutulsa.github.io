@@ -79,7 +79,7 @@
                             firstName.className += " " + "error";
                             valid = false;
                         } else {
-                            userRef.name.first = firstName.value;
+                            userRef.child("name").set({first: firstName.value});
                         }
                     }
 
