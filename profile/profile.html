@@ -49,8 +49,7 @@
                     }
 
                     userRef.remove();
-                    auth.logout();
-                    localStorage.id = undefined;
+                    logout();
                 }
             }
 
@@ -425,11 +424,11 @@
                     </div>
                     <div id="accountTab" class="hide">
                         <form role="form">
-                            <div id="passwordDeleteDiv" class="form-group col-md-2">
+                            <div class="form-group col-md-2">
                                 <button type="button" class="btn btn-danger" onclick="deleteAccount()">Delete Account</button>
                             </div>
-                            <div class="form-group col-md-10">
-                                <input id="passwordDelete" type="text" class="form-control" placeholder="Current Password">
+                            <div id="passwordDeleteDiv" class="form-group col-md-10">
+                                <input id="passwordDelete" type="password" class="form-control" placeholder="Current Password">
                             </div>
                             <div class="form-group col-sm-12">
                                 <label><em>*Use 'none' for the current password if you have not registered a password to this site</em></label>
