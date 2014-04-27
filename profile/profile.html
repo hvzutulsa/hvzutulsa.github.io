@@ -107,6 +107,7 @@
                             valid = false;
                         } else {
                             userRef.update({phone: phoneNumber.value});
+                        }
                     }
 
                     var inputEmail = document.getElementById("inputEmail");
@@ -127,9 +128,6 @@
                         } else {
                             userRef.update({email: inputEmail.value});
                         }
-                    }
-
-                    if (valid) {
                     }
                 });
             }
