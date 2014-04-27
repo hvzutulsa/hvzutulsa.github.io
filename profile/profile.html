@@ -41,24 +41,30 @@
                     var userId = localStorage.id;
                     var userRef = new Firebase("https://hvz-utulsa.firebaseio.com/users/" + userId);
 
-                    if (passwordDelete.value != "none") {
-                        userRef.once('value', function(state) {
-                            console.log(state);
-                            console.log("to be deleted");
-                            auth.removeUser(state.val().email, passwordDelete.value, function(error, success) {
-                                if (!error) {
-                                    console.log("user deleted");
+                    userRef.once('value', function(state) {
+                        console.log(state);
+                        console.log("to be deleted");
+                        auth.removeUser(state.val().email, passwordDelete.value, function(error, success) {
+                            if (error) {
+                                console.log(error);
+                                console.log(error.code);
+                                console.log(error.code === "INVALID_USER");
+                                if (error.code === "INVALID_USER") {
+                                    console.log("user removed");
+                                    userRef.remove();
+                                    logout();
                                 } else {
-                                    console.log(error);
-                                    console.log("couldn't delete");
+                                    document.getElementById("passwordDeleteDiv").className += " " + "has-error";
+                                    passwordDelete.className += " " + "error";
                                 }
-                            });
+                            } else {
+                                console.log(success);
+                                console.log("user removed");
+                                userRef.remove();
+                                logout();
+                            }
                         });
-                    }
-
-                    console.log("user removed");
-                    userRef.remove();
-                    logout();
+                    });
                 }
             }
 
