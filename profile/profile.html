@@ -244,38 +244,78 @@
                         <li id="statsElement"><a onclick="statsActive()">Stats</a></li>
                     </ul>
                     <div id="statusTab">
-                        <form class="form-horizontal" role="form">
-                            <div class="form-group">
-                                <label for="currentStatus" class="col-md-4 control-label">Status</label>
-                                <div class="col-md-8">
-                                    <input id="currentStatus" type="text" class="form-control" placeholder="Not playing" disabled>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="currentBiteTag" class="col-md-4 control-label">Bite Tag</label>
-                                <div class="col-md-8">
-                                    <input id="currentBiteTag" type="text" class="form-control" placeholder="None" disabled>
-                                </div>
-                            </div>
-                        </form>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th colspan="2"><h3>Status<h3></th>
+                                    <th colspan="2"><h3>Bite Tag<h3></th>
+                                    <th colspan="2"><h3>Game<h3></th>
+                                </tr>
+                            </thead>
+                            <tr>
+                                <td colspan="2"><input id="currentStatus" type="text" class="form-control" placeholder="Not playing" disabled></td>
+                                <td colspan="2"><input id="currentBiteTag" type="text" class="form-control" placeholder="None" disabled></td>
+                                <td style="text-align:center" colspan="2">Closed</td>
+                            </tr>
+                        </table>
                     </div>
-                    <div id="statsTab">
-                        <form class="form-inline" role="form">
-                            <div class="form-group col-md-6">
-                                <form class="form-horizontal" role="form">
-                                    <div class="form-group col-md-12">
-                                        <label>Human</label>
-                                    </div>
-                                </form>
-                            </div>
-                            <div class="form-group col-md-6">
-                                <form class="form-horizontal" role="form">
-                                    <div class="form-group col-md-12">
-                                        <label>Zombie</label>
-                                    </div>
-                                </form>
-                            </div>
-                        </form>
+                    <div id="statsTab" class="hide">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th colspan="2"><h3>Human<h3></th>
+                                    <th colspan="2"><h3>Zombie<h3></th>
+                                </tr>
+                            </thead>
+                            <tr>
+                                <td>Wanted</td>
+                                <td><input id="wantedRanking" type="text" class="form-control" placeholder="0" disabled></td>
+                                <td>Feared</td>
+                                <td><input id="fearedRanking" type="text" class="form-control" placeholder="0" disabled></td>
+                            </tr>
+                            <tr>
+                                <td style="text-align:center" colspan="2">Favorite Zombie</td>
+                                <td style="text-align:center" colspan="2">Rival Human</td>
+                            </tr>
+                            <tr>
+                                <td>Fodder</td>
+                                <td><input id="fodder" type="text" class="form-control" placeholder="None" disabled></td>
+                                <td>Hunter</td>
+                                <td><input id="hunter" type="text" class="form-control" placeholder="None" disabled></td>
+                            </tr>
+                            <tr>
+                                <td>Stuns On</td>
+                                <td><input id="fodderCount" type="text" class="form-control" placeholder="0" disabled></td>
+                                <td>Stuns By</td>
+                                <td><input id="hunterCount" type="text" class="form-control" placeholder="0" disabled></td>
+                            </tr>
+                            <tr>
+                                <td>Turned By</td>
+                                <td><input id="turnedBy" type="text" class="form-control" placeholder="None" disabled></td>
+                            </tr>
+                            <tr>
+                                <td style="text-align:center" colspan="2">Stuns</td>
+                                <td style="text-align:center" colspan="2">Turns</td>
+                            </tr>
+                            <tr>
+                                <td>Total</td>
+                                <td><input id="stunCount" type="text" class="form-control" placeholder="0" disabled></td>
+                                <td>Total</td>
+                                <td><input id="turnCount" type="text" class="form-control" placeholder="0" disabled></td>
+                            </tr>
+                            <tr>
+                                <td>Confirmed</td>
+                                <td><input id="confirmedStuns" type="text" class="form-control" placeholder="0" disabled></td>
+                                <td>Confirmed</td>
+                                <td><input id="confirmedTurns" type="text" class="form-control" placeholder="0" disabled></td>
+                            </tr>
+                            <tr>
+                                <td>Unconfirmed</td>
+                                <td><input id="unconfirmedStuns" type="text" class="form-control" placeholder="0" disabled></td>
+                                <td>Unconfirmed</td>
+                                <td><input id="unconfirmedTurns" type="text" class="form-control" placeholder="0" disabled></td>
+                            </tr>
+                        </table>
                     </div>
                 </div>
             </div>
@@ -362,8 +402,28 @@
                     if (state.val().email != "") {
                         document.getElementById("inputEmail").value = state.val().email;
                     }
-                    document.getElementById("currentStatus").value = state.val().stats.status;
-                    document.getElementById("currentBiteTag").value = state.val().stats.tag;
+                    if (state.val().stats.player) {
+                        if (state.val().stats.alive) {
+                            document.getElementById("currentStatus").value = "Human";
+                        } else if (state.val().stats.alpha) {
+                            document.getElementById("currentStatus").value = "Alpha Zombie";
+                        } else {
+                            document.getElementById("currentStatus").value = "Zombie";
+                        }
+                    }
+                    document.getElementById("wantedRanking").value = state.val().stats.wanted;
+                    document.getElementById("fearedRanking").value = state.val().stats.feared;
+                    document.getElementById("fodder").value = state.val().stats.fodder.id;
+                    document.getElementById("hunter").value = state.val().stats.hunter.id;
+                    document.getElementById("fodderCount").value = state.val().stats.fodder.count;
+                    document.getElementById("hunterCount").value = state.val().stats.hunter.count;
+                    document.getElementById("turnedBy").value = state.val().stats.turnedBy;
+                    document.getElementById("stunCount").value = state.val().stats.stuns.total;
+                    document.getElementById("turnCount").value = state.val().stats.turns.total;
+                    document.getElementById("confirmedStuns").value = state.val().stats.stuns.confirmed.count;
+                    document.getElementById("confirmedTurns").value = state.val().stats.turns.confirmed.count;
+                    document.getElementById("unconfirmedStuns").value = state.val().stats.unconfirmed.count;
+                    document.getElementById("unconfirmedTurns").value = state.val().stats.unconfirmed.count;
                 });
             }
         </script>

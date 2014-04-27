@@ -64,7 +64,7 @@
             function registerUser(user, userData, userId) {
             	var userRef = new Firebase("https://hvz-utulsa.firebaseio.com/users/" + userId);
                 var userInfo = {
-                    name: {
+                	name: {
                         first: "",
                         middle: "",
                         last: ""
@@ -74,9 +74,12 @@
                     phone: "",
                     email: "",
                     stats: {
-                        status: "Not Playing",
-                        tag: "None",
+                        player: false,
+	                	alpha: false,
+	                	alive: true,
+	                    tag: "None",
                         stuns: {
+                        	total: 0,
                             confirmed: {
                                 count: 0
                             },
@@ -85,6 +88,7 @@
                             }
                         },
                         turns: {
+                        	total: 0,
                             confirmed: {
                                 count: 0
                             },
@@ -92,7 +96,16 @@
                                 count: 0
                             }
                         },
-                        nemesis: "None",
+                        wanted: 0,
+                        feared: 0,
+                        fodder: {
+                            id: "None",
+                            count: 0
+                        },
+                        hunter: {
+                            id: "None",
+                            count: 0
+                        },
                         turnedBy: "None"
                     }
                 };

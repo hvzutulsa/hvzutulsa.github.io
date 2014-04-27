@@ -53,9 +53,12 @@
                     phone: document.getElementById("phoneNumber").value,
                     email: userEmail,
                     stats: {
-                        status: "Not Playing",
+                        player: false,
+                        alpha: false,
+                        alive: true,
                         tag: "None",
                         stuns: {
+                            total: 0,
                             confirmed: {
                                 count: 0
                             },
@@ -64,6 +67,7 @@
                             }
                         },
                         turns: {
+                            total: 0,
                             confirmed: {
                                 count: 0
                             },
@@ -71,7 +75,16 @@
                                 count: 0
                             }
                         },
-                        nemesis: "None",
+                        wanted: 0,
+                        feared: 0,
+                        fodder: {
+                            id: "None",
+                            count: 0
+                        },
+                        hunter: {
+                            id: "None",
+                            count: 0
+                        },
                         turnedBy: "None"
                     }
                 };
