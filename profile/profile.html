@@ -128,13 +128,13 @@
                         } else {
                             userRef.update({email: inputEmail.value});
                         }
-                    }
-
-                    var confirmEmail = document.getElementById("confirmEmail");
-                    if (confirmEmail.value != '' || inputEmail.value != confirmEmail.value) {
-                        document.getElementById("confirmEmailDiv").className += " " + "has-error";
-                        confirmEmail.className += " " + "error";
-                        valid = false;
+                    } else {
+                        var confirmEmail = document.getElementById("confirmEmail");
+                        if (confirmEmail.value != '' || inputEmail.value != confirmEmail.value) {
+                            document.getElementById("confirmEmailDiv").className += " " + "has-error";
+                            confirmEmail.className += " " + "error";
+                            valid = false;
+                        }
                     }
 
                     var oldPassword = document.getElementById("oldPassword");
@@ -186,20 +186,19 @@
                                 }
                             });
                         }
-                    }
+                        var newPassword = document.getElementById("newPassword");
+                        if (newPassword.value != "") {
+                            document.getElementById("newPasswordDiv").className += " " + "has-error";
+                            newPassword.className += " " + "error";
+                            valid = false;
+                        }
 
-                    var newPassword = document.getElementById("newPassword");
-                    if (newPassword.value != "") {
-                        document.getElementById("newPasswordDiv").className += " " + "has-error";
-                        newPassword.className += " " + "error";
-                        valid = false;
-                    }
-
-                    var confirmPassword = document.getElementById("confirmPassword");
-                    if (confirmPassword.value != "") {
-                        document.getElementById("confirmPasswordDiv").className += " " + "has-error";
-                        confirmPassword.className += " " + "error";
-                        valid = false;
+                        var confirmPassword = document.getElementById("confirmPassword");
+                        if (confirmPassword.value != "") {
+                            document.getElementById("confirmPasswordDiv").className += " " + "has-error";
+                            confirmPassword.className += " " + "error";
+                            valid = false;
+                        }
                     }
 
                     if (valid) {
