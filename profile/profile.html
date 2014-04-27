@@ -80,6 +80,7 @@
                             valid = false;
                         } else {
                             userRef.child("name").set({first: firstName.value});
+                            console.log("changed name");
                         }
                     }
 
@@ -129,7 +130,6 @@
                     }
 
                     if (valid) {
-                        window.location.reload();
                     }
                 });
             }
