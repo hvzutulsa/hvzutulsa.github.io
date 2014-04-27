@@ -19,8 +19,8 @@
                     <!--redirect();-->
                     console.log(user);
                     console.log("init user");
-                    saveUser(user.email.replace(".", "-"), user.email);
-                    saveUserCredentials(user.email.replace(".", "-"));    
+                    saveUser(user.uid, user.email);
+                    saveUserCredentials(user.uid);    
                 }
             });
             
