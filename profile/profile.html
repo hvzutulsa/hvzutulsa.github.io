@@ -220,7 +220,12 @@
                                 if (error) {
                                     console.log(error);
                                     console.log("couldn't change password");
-                                    if (error.code == "INVALID_USER") {
+                                    console.log(error.code);
+                                    consol.log("error code");
+                                    console.log(error.code === "INVALID_USER");
+                                    console.log(error.code == "INVALID_USER");
+                                    console.log("check");
+                                    if (error.code === "INVALID_USER") {
                                         auth.createUser(state.val().email, newPassword.value, function(error, user) {
                                             if (error) {
                                                 console.log(error);
