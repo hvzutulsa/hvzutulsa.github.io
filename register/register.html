@@ -52,6 +52,28 @@
                     picture: "",
                     phone: document.getElementById("phoneNumber").value,
                     email: userEmail
+                    stats: {
+                        status: "Not Playing",
+                        tag: "None",
+                        stuns: {
+                            confirmed: {
+                                count: 0
+                            },
+                            unconfirmed: {
+                                count: 0
+                            }
+                        },
+                        turns: {
+                            confirmed: {
+                                count: 0
+                            },
+                            unconfirmed: {
+                                count: 0
+                            }
+                        },
+                        nemesis: "None",
+                        turnedBy: "None"
+                    }
                 };
                 userRef.set(userInfo);
             }

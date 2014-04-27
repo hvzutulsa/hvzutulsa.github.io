@@ -129,6 +129,10 @@
                             userRef.update({email: inputEmail.value});
                         }
                     }
+                    
+                    if (valid) {
+                        window.location.reload();
+                    }
                 });
             }
         </script>

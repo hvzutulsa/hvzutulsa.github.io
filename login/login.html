@@ -72,7 +72,29 @@
                     displayName: "",
                     picture: "",
                     phone: "",
-                    email: ""
+                    email: "",
+                    stats: {
+                        status: "Not Playing",
+                        tag: "None",
+                        stuns: {
+                            confirmed: {
+                                count: 0
+                            },
+                            unconfirmed: {
+                                count: 0
+                            }
+                        },
+                        turns: {
+                            confirmed: {
+                                count: 0
+                            },
+                            unconfirmed: {
+                                count: 0
+                            }
+                        },
+                        nemesis: "None",
+                        turnedBy: "None"
+                    }
                 };
                 if (user.provider == 'facebook') {
                 	userInfo.name.first = userData.first_name;
