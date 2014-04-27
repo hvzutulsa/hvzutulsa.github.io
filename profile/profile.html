@@ -54,6 +54,20 @@
             function redirect() {
                 window.location = "../home/home.html";
             }
+
+            function statsActive() {
+                document.getElementById("statusTab").className = "hide";
+                document.getElementById("statusElement").className = "";
+                document.getElementById("statsTab").className = "";
+                document.getElementById("statsElement").className = "active";
+            }
+
+            function statusActive() {
+                document.getElementById("statsTab").className = "hide";
+                document.getElementById("statsElement").className = "";
+                document.getElementById("statusTab").className = "";
+                document.getElementById("statusElement").className = "active";
+            }
             
             function validateForm() {
                 var userId = localStorage.id;
@@ -130,7 +144,7 @@
                         }
                     } else {
                         var confirmEmail = document.getElementById("confirmEmail");
-                        if (confirmEmail.value != '' || inputEmail.value != confirmEmail.value) {
+                        if (confirmEmail.value != '') {
                             document.getElementById("confirmEmailDiv").className += " " + "has-error";
                             confirmEmail.className += " " + "error";
                             valid = false;
@@ -226,23 +240,47 @@
                 </div>
                 <div id="infoPanel" class="panel-body">
                     <ul class="nav nav-tabs tabs">
-                        <li class="active"><a onclick="">Status</a></li>
-                        <li><a onclick="">Stats</a></li>
+                        <li id="statusElement" class="active"><a onclick="statusActive()">Status</a></li>
+                        <li id="statsElement"><a onclick="statsActive()">Stats</a></li>
                     </ul>
-                    <form class="form-horizontal" role="form">
-                        <div class="form-group">
-                            <label for="currentStatus" class="col-md-4 control-label">Status</label>
-                            <div class="col-md-8">
-                                <input id="currentStatus" type="text" class="form-control" placeholder="Not playing" disabled>
+                    <div id="statusTab">
+                        <form class="form-horizontal" role="form">
+                            <div class="form-group">
+                                <label for="currentStatus" class="col-md-4 control-label">Status</label>
+                                <div class="col-md-8">
+                                    <input id="currentStatus" type="text" class="form-control" placeholder="Not playing" disabled>
+                                </div>
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="currentBiteTag" class="col-md-4 control-label">Bite Tag</label>
-                            <div class="col-md-8">
-                                <input id="currentBiteTag" type="text" class="form-control" placeholder="None" disabled>
+                            <div class="form-group">
+                                <label for="currentBiteTag" class="col-md-4 control-label">Bite Tag</label>
+                                <div class="col-md-8">
+                                    <input id="currentBiteTag" type="text" class="form-control" placeholder="None" disabled>
+                                </div>
                             </div>
+                        </form>
+                    </div>
+                    <div id="statsTab">
+                        <div style="width:50% display:inline-block" class="panel-body">
+                            <form class="form-horiztonal" role="form">
+                                <div class="form-group">
+                                    <label for="nemesis" class="col-md-4 control-label">Status</label>
+                                    <div class="col-md-8">
+                                        <input id="nemeis" type="text" class="form-control" placeholder="None" disabled>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
-                    </form>
+                        <div style="width:50% display:inline-block" class="panel-body">
+                            <form class="form-horiztonal" role="form">
+                                <div class="form-group">
+                                    <label for="nemesis" class="col-md-4 control-label">Status</label>
+                                    <div class="col-md-8">
+                                        <input id="nemeis" type="text" class="form-control" placeholder="None" disabled>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div id="profilePanel" class="panel-body">
@@ -328,6 +366,8 @@
                     if (state.val().email != "") {
                         document.getElementById("inputEmail").value = state.val().email;
                     }
+                    document.getElementById("currentStatus").value = state.val().stats.status;
+                    document.getElementById("currentBiteTag").value = state.val().stats.tag;
                 });
             }
         </script>
