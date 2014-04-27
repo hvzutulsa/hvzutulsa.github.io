@@ -111,7 +111,7 @@
                     }
 
                     var inputEmail = document.getElementById("inputEmail");
-                    if (state.val().email !== inputEmail.value) {
+                    if (state.val().email != inputEmail.value) {
                         if (inputEmail.value == '' || inputEmail.value.indexOf('@') < 1 || inputEmail.value.indexOf('.') < 3) {
                             document.getElementById("inputEmailDiv").className += " " + "has-error";
                             inputEmail.className += " " + "error";
@@ -152,24 +152,19 @@
                             var auth = new FirebaseSimpleLogin(firebaseRef, function(error, user) {
                                 if (user) {
                                     if (user.provider == 'password') {
-                                        console.log("provider password");
                                         auth.changePassword(state.val().email, oldPassword.value, newPassword.value, function(error, success) {
                                             if (error) {
-                                                console.log(error);
                                                 document.getElementById("oldPasswordDiv").className += " " + "has-error";
                                                 oldPassword.className += " " + "error";
                                                 valid = false;
                                             }
                                         });
                                     } else {
-                                        console.log("create user");
                                         auth.createUser(state.val().email, newPassword.value, function(error, user) {
                                             if (error) {
-                                                console.log("error");
                                                 if (error.code == "EMAIL_TAKEN") {
                                                     auth.changePassword(state.val().email, oldPassword.value, newPassword.value, function(error, success) {
                                                         if (error) {
-                                                            console.log("error");
                                                             document.getElementById("oldPasswordDiv").className += " " + "has-error";
                                                             oldPassword.className += " " + "error";
                                                             valid = false;
@@ -185,7 +180,8 @@
                                     }
                                 }
                             });
-                        }
+                        }   
+                    } else {
                         var newPassword = document.getElementById("newPassword");
                         if (newPassword.value != "") {
                             document.getElementById("newPasswordDiv").className += " " + "has-error";
