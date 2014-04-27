@@ -6,17 +6,6 @@
         <script type="text/javascript" src='https://cdn.firebase.com/js/client/1.0.11/firebase.js'></script>
         <script type="text/javascript" src='https://cdn.firebase.com/js/simple-login/1.3.2/firebase-simple-login.js'></script>
         <script type="text/javascript">
-            var firebaseRef = new Firebase("https://hvz-utulsa.firebaseio.com");
-            var auth = new FirebaseSimpleLogin(firebaseRef, function(error, user) {
-                if (error) {
-                    // an error occurred when the user attempted to login
-                    if (typeof(localStorage) != undefined) {
-                        localStorage.id = undefined;
-                    }
-                } else if (user) {
-                    console.log("user is logged in");
-                }
-            });
 
             function emailActive() {
                 document.getElementById("profileTab").className = "hide";
@@ -31,7 +20,12 @@
                 if (typeof(localStorage) != undefined) {
                     localStorage.id = undefined;
                 }
-                auth.logout();
+                var firebaseRef = new Firebase("https://hvz-utulsa.firebaseio.com");
+                var auth = new FirebaseSimpleLogin(firebaseRef, function(error, user) {
+                    if (user) {
+                        auth.logout();
+                    }
+                });
                 redirect();
             }
 
@@ -140,17 +134,7 @@
                     }
 
                     var oldPassword = document.getElementById("oldPassword");
-                    if (oldPassword != "") {
-                        var checkPassword = new FirebaseSimpleLogin(firebaseRef, function(error, user) {
-                            if (error) {
-                                // an error occurred when the user attempted to login
-                                if (typeof(localStorage) != undefined) {
-                                    localStorage.id = undefined;
-                                }
-                            } else if (user) {
-                                console.log("user is already logged in");
-                            }
-                        });
+                    if (oldPassword.value != "") {
                         var newPassword = document.getElementById("newPassword");
                         var confirmPassword = document.getElementById("confirmPassword");
                         if (newPassword.value == "" || newPassword.value != confirmPassword.value) {
@@ -159,6 +143,39 @@
                             document.getElementById("confirmPasswordDiv").className += " " + "has-error";
                             confirmPassword.className += " " + "error";
                             valid = false;
+                        } else {
+                            var firebaseRef = new Firebase("https://hvz-utulsa.firebaseio.com");
+                            var auth = new FirebaseSimpleLogin(firebaseRef, function(error, user) {
+                                if (user) {
+                                    if (user.provider == 'password') {
+                                        auth.changePassword(state.val().email, oldPassword.value, newPassword.value, function(error, success) {
+                                            if (error) {
+                                                document.getElementById("oldPasswordDiv").className += " " + "has-error";
+                                                oldPassword.className += " " + "error";
+                                                valid = false;
+                                            }
+                                        });
+                                    } else {
+                                        auth.createUser(state.val().email, newPassword.value, function(error, user) {
+                                            if (error) {
+                                                if (error.code == "EMAIL_TAKEN") {
+                                                    auth.changePassword(state.val().email, oldPassword.value, newPassword.value, function(error, success) {
+                                                        if (error) {
+                                                            document.getElementById("oldPasswordDiv").className += " " + "has-error";
+                                                            oldPassword.className += " " + "error";
+                                                            valid = false;
+                                                        }
+                                                    });
+                                                } else {
+                                                    document.getElementById("oldPasswordDiv").className += " " + "has-error";
+                                                    oldPassword.className += " " + "error";
+                                                    valid = false;
+                                                }
+                                            }
+                                        });
+                                    }
+                                }
+                            });
                         }
                     }
 
@@ -262,7 +279,7 @@
                     <div id="passwordTab" class="hide">
                         <form role="form">
                             <div id="oldPasswordDiv" class="form-group col-md-12">
-                                <input id="oldPassword" type="password" class="form-control" placeholder="Current Password">
+                                <input id="oldPassword" type="password" class="form-control" placeholder="Current Password or none if not sure">
                             </div>
                             <div id="newPasswordDiv" class="form-group col-md-12">
                                 <input id="newPassword" type="password" class="form-control" placeholder="New Password">
