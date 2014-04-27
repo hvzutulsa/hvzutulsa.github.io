@@ -11,7 +11,7 @@
                 if (error) {
                     // an error occurred when the user attempted to login
                     if (typeof(localStorage) != undefined) {
-                        localStorage.id = "undefined";
+                        localStorage.id = undefined;
                     }
                 } else if (user) {
                     redirect();
@@ -30,7 +30,7 @@
                     } else {
                         // an error occurred when the user attempted to login
                         if (typeof(localStorage) != undefined) {
-                            localStorage = "undefined";
+                            localStorage.id = undefined;
                         }
                     }
                 });
@@ -51,7 +51,7 @@
                     displayName: document.getElementById("firstName").value,
                     picture: "",
                     phone: document.getElementById("phoneNumber").value,
-                    email: userEmail
+                    email: userEmail,
                     stats: {
                         status: "Not Playing",
                         tag: "None",

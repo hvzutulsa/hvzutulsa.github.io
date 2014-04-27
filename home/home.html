@@ -12,7 +12,7 @@
             	if (error) {
             		// an error occurred when the user attempted to login
                     if (typeof(localStorage) != undefined) {
-                        localStorage.id = "undefined";
+                        localStorage.id = undefined;
                     }
 				}
             });
@@ -47,7 +47,7 @@
             function updateAuthPanel() {
                 if(typeof(localStorage) != undefined) {
                     var authPanel = document.getElementById("authPanel");
-                    if(localStorage.id != "undefined") {
+                    if(localStorage != undefined) {
                         var userId = localStorage.id;
                         var userRef = new Firebase("https://hvz-utulsa.firebaseio.com/users/" + userId);
                         var username = document.createElement("a");
@@ -90,7 +90,7 @@
 
             function logout() {
                 if (typeof(localStorage) != undefined) {
-                    localStorage.id = "undefined";
+                    localStorage.id = undefined;
                 }
                 auth.logout();
                 updateAuthPanel();

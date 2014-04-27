@@ -12,7 +12,7 @@
             	if (error) {
             		// an error occurred when the user attempted to login
                     if (typeof(localStorage) != undefined) {
-                        localStorage.id = "undefined";
+                        localStorage.id = undefined;
                     }
 				} else if (user) {
 				    // user authenticated with Firebase
@@ -96,6 +96,7 @@
                         turnedBy: "None"
                     }
                 };
+
                 if (user.provider == 'facebook') {
                 	userInfo.name.first = userData.first_name;
                 	userInfo.name.last = userData.last_name;

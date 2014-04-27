@@ -11,8 +11,10 @@
                 if (error) {
                     // an error occurred when the user attempted to login
                     if (typeof(localStorage) != undefined) {
-                        localStorage.id = "undefined";
+                        localStorage.id = undefined;
                     }
+                } else if (user) {
+                    console.log("user is logged in");
                 }
             });
 
@@ -27,7 +29,7 @@
             
             function logout() {
                 if (typeof(localStorage) != undefined) {
-                    localStorage.id = "undefined";
+                    localStorage.id = undefined;
                 }
                 auth.logout();
                 redirect();
@@ -129,7 +131,41 @@
                             userRef.update({email: inputEmail.value});
                         }
                     }
-                    
+
+                    var confirmEmail = document.getElementById("confirmEmail");
+                    if (confirmEmail.value != '' || inputEmail.value != confirmEmail.value) {
+                        document.getElementById("confirmEmailDiv").className += " " + "has-error";
+                        confirmEmail.className += " " + "error";
+                        valid = false;
+                    }
+
+                    var oldPassword = document.getElementById("oldPassword");
+                    if (oldPassword != "") {
+                        var newPassword = document.getElementById("newPassword");
+                        var confirmPassword = document.getElementById("confirmPassword");
+                        if (newPassword.value == "" || newPassword.value != confirmPassword.value) {
+                            document.getElementById("newPasswordDiv").className += " " + "has-error";
+                            newPassword.className += " " + "error";
+                            document.getElementById("confirmPasswordDiv").className += " " + "has-error";
+                            confirmPassword.className += " " + "error";
+                            valid = false;
+                        }
+                    }
+
+                    var newPassword = document.getElementById("newPassword");
+                    if (newPassword.value != "") {
+                        document.getElementById("newPasswordDiv").className += " " + "has-error";
+                        newPassword.className += " " + "error";
+                        valid = false;
+                    }
+
+                    var confirmPassword = document.getElementById("confirmPassword");
+                    if (confirmPassword.value != "") {
+                        document.getElementById("confirmPasswordDiv").className += " " + "has-error";
+                        confirmPassword.className += " " + "error";
+                        valid = false;
+                    }
+
                     if (valid) {
                         window.location.reload();
                     }
