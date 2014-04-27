@@ -50,9 +50,9 @@
                     if(localStorage.id != "undefined") {
                         var userId = localStorage.id;
                         var userRef = new Firebase("https://hvz-utulsa.firebaseio.com/users/" + userId);
+                        var username = document.createElement("a");
+                        username.href = "../profile/profile.html";
                         userRef.once('value', function(state) {
-                            var username = document.createElement("a");
-                            username.href = "../profile/profile.html";
                             username.innerHTML = "<h3 id='userName'>" + state.val().displayName + "</h3>";
                         });
                         
