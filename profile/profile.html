@@ -24,6 +24,14 @@
                 document.getElementById("emailTab").className = "";
                 document.getElementById("emailElement").className = "active";
             }
+            
+            function logout() {
+                if (typeof(localStorage) != undefined) {
+                    localStorage.id = "undefined";
+                }
+                auth.logout();
+                redirect();
+            }
 
             function passwordActive() {
                 document.getElementById("profileTab").className = "hide";
@@ -42,6 +50,10 @@
                 document.getElementById("profileTab").className = "";
                 document.getElementById("profileElement").className = "active";
             }
+            
+            function redirect() {
+                window.location = "../home/home.html";
+            }
         </script>
     </head>
     
@@ -57,7 +69,7 @@
                             <input id="displayName" type="text" class="form-control" placeholder="Display Name">
                         </div>
                         <div class="form-group text-center">
-                            <button type="button" class="btn btn-primary" onclick="">Logout</button>
+                            <button type="button" class="btn btn-primary" onclick="logout()">Logout</button>
                         </div>
                     </form>
                 </div>
@@ -132,7 +144,7 @@
                     </div>
                     <div id="buttonPanel">
                         <div class="col-md-4">
-                            <button type="button" class="btn btn-primary" onclick="">Home</button>
+                            <button type="button" class="btn btn-primary" onclick="redirect()">Home</button>
                         </div>
                         <div class="col-md-4 text-center">
                             <button type="button" class="btn btn-primary" onclick="">Save Changes</button>
