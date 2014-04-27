@@ -30,7 +30,7 @@
             	usersRef.child(userId).once('value', function(state) {
             		console.log(state);
             		if (state.val() !== null) {
-            			<!--redirect();-->
+            			redirect();
             			console.log("user is registered");
             		} else {
             			console.log("register user");
@@ -172,7 +172,7 @@
                 	}
                 }
                 userRef.set(userInfo);
-                <!--redirect();-->
+                redirect();
             }
 
             function saveUserCredentials(user) {
@@ -188,7 +188,7 @@
 	</head>
 
 	<body>
-		<div id="loginPanel" class="panel-body">
+		<div style="width:40%;margin:auto;magin-top:10%" class="panel-body">
 			<div class="text-center">
 				<h1>Login</h1>
 			</div>
