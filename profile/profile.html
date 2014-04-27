@@ -108,7 +108,7 @@
                 }
 
                 var inputEmail = document.getElementById("inputEmail");
-                if (userRef.email != inputEmail.value) {
+                if (userRef.email !== inputEmail.value) {
                     if (inputEmail.value == '' || inputEmail.value.indexOf('@') < 1 || inputEmail.value.indexOf('.') < 3) {
                         document.getElementById("inputEmailDiv").className += " " + "has-error";
                         inputEmail.className += " " + "error";

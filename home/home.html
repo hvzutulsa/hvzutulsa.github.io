@@ -48,9 +48,12 @@
                 if(typeof(localStorage) != undefined) {
                     var authPanel = document.getElementById("authPanel");
                     if(localStorage.id != "undefined") {
+                        var userId = localStorage.id;
+                        var userRef = new Firebase("https://hvz-utulsa.firebaseio.com/users/" + userId);
+                        
                         var username = document.createElement("a");
                         username.href = "../profile/profile.html";
-                        username.innerHTML = "<h3 id='userName'>" + localStorage.id + "</h3>";
+                        username.innerHTML = "<h3 id='userName'>" + userRef.displayName + "</h3>";
                         var logoutButton = document.createElement("button");
                         logoutButton.onclick = logout;
                         logoutButton.className = "btn btn-primary";
