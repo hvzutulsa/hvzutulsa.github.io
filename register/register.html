@@ -19,14 +19,14 @@
                     <!--redirect();-->
                     console.log(user);
                     console.log("init user");
+                    saveUser(user.email.replace(".", "-"), user.email);
+                    saveUserCredentials(user.email.replace(".", "-"));    
                 }
             });
             
             function createUser(userEmail, userPassword) {
                 auth.createUser(userEmail, userPassword, function(error, user) {
                     if (!error) {
-                        saveUser(user.email.replace(".", "-"), user.email);
-                        saveUserCredentials(user.email.replace(".", "-"));   
                         auth.login('password', {
                             email: userEmail,
                             password: userPassword

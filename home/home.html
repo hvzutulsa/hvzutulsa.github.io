@@ -16,7 +16,7 @@
                     if (typeof(localStorage) != undefined) {
                         localStorage.id = undefined;
                     }
-				} else {
+				} else if (user) {
                     console.log(user);
                     console.log("init user");
                 }
