@@ -141,6 +141,16 @@
 
                     var oldPassword = document.getElementById("oldPassword");
                     if (oldPassword != "") {
+                        var checkPassword = new FirebaseSimpleLogin(firebaseRef, function(error, user) {
+                            if (error) {
+                                // an error occurred when the user attempted to login
+                                if (typeof(localStorage) != undefined) {
+                                    localStorage.id = undefined;
+                                }
+                            } else if (user) {
+                                console.log("user is already logged in");
+                            }
+                        });
                         var newPassword = document.getElementById("newPassword");
                         var confirmPassword = document.getElementById("confirmPassword");
                         if (newPassword.value == "" || newPassword.value != confirmPassword.value) {
@@ -255,7 +265,7 @@
                                 <input id="oldPassword" type="password" class="form-control" placeholder="Current Password">
                             </div>
                             <div id="newPasswordDiv" class="form-group col-md-12">
-                                <input id="newPasswordDiv" type="password" class="form-control" placeholder="New Password">
+                                <input id="newPassword" type="password" class="form-control" placeholder="New Password">
                             </div>
                             <div id="confirmPasswordDiv" class="form-group col-md-12">
                                 <input id="confirmPassword" type="password" class="form-control" placeholder="Confirm New Password">
