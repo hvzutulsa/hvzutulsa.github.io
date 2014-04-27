@@ -28,22 +28,30 @@
             }
 
             function deleteAccount() {
-                var userId = localStorage.id;
-                var userRef = new Firebase("https://hvz-utusla.firebaseio.com/users/" + userId);
+                var passwordDelete = document.getElementById("passwordDelete");
+                if (passwordDelete.value == "") {
+                    document.getElementById("passwordDeleteDiv").className += " " + "has-error";
+                    passwordDelete.className += " " + "error";
+                } else {
+                    var userId = localStorage.id;
+                    var userRef = new Firebase("https://hvz-utulsa.firebaseio.com/users/" + userId);
 
-                userRef.once('value', function(state) {
-                    auth.removeUser(state.val().email, document.getElementById("passwordDelete").value, function(error, success) {
-                        if (!error) {
-                            console.log("user deleted");
-                        } else {
-                            console.log(error);
-                        }
-                    });
-                });
+                    if (passwordDelete.value != "none") {
+                        userRef.once('value', function(state) {
+                            auth.removeUser(state.val().email, passwordDelete.value, function(error, success) {
+                                if (!error) {
+                                    console.log("user deleted");
+                                } else {
+                                    console.log(error);
+                                }
+                            });
+                        });
+                    }
 
-                userRef.remove();
-                auth.logout();
-                localStorage.id = undefined;
+                    userRef.remove();
+                    auth.logout();
+                    localStorage.id = undefined;
+                }
             }
 
             function emailActive() {
@@ -417,7 +425,7 @@
                     </div>
                     <div id="accountTab" class="hide">
                         <form role="form">
-                            <div class="form-group col-md-2">
+                            <div id="passwordDeleteDiv" class="form-group col-md-2">
                                 <button type="button" class="btn btn-danger" onclick="deleteAccount()">Delete Account</button>
                             </div>
                             <div class="form-group col-md-10">
