@@ -54,6 +54,83 @@
             function redirect() {
                 window.location = "../home/home.html";
             }
+            
+            function validateForm() {
+                var userId = localStorage.id;
+                var userRef = new Firebase("https://hvz-utulsa.firebaseio.com/users/" + userId);
+                var valid = true;
+                
+                var displayName = document.getElementById("displayName");
+                if (userRef.displayName != displayName.value) {
+                    if (displayName.value == '') {
+                        document.getElementById("displayNameDiv").className += " " + "has-error";
+                        firstName.className += " " + "error";
+                        valid = false;
+                    } else {
+                        userRef.displayName = displayName.value;
+                    }
+                }
+
+                var firstName = document.getElementById("firstName");
+                if (userRef.name.first != firstName.value) {
+                    if (firstName.value == '') {
+                        document.getElementById("firstNameDiv").className += " " + "has-error";
+                        firstName.className += " " + "error";
+                        valid = false;
+                    } else {
+                        userRef.name.first = firstName.value;
+                    }
+                }
+                
+                var middleInitial = document.getElementById("mi");
+                if (userRef.name.middle != middleInitial.value) {
+                    userRef.name.middle = middleInitial.value;
+                }
+                
+                var lastName = document.getElementById("lastName");
+                if (userRef.name.last != lastName.value) {
+                    if (lastName.value == '') {
+                        document.getElementById("lastNameDiv").className += " " + "has-error";
+                        lastName.className += " " + "error";
+                        valid = false;
+                    } else {
+                        userRef.name.last = lastName.value;
+                    }
+                }
+
+                var phoneNumber = document.getElementById("phoneNumber");
+                if (userRef.phone != phoneNumber.value) {
+                    if (phoneNumber.value != '' && !(phoneNumber.value.match(/\d{10}$|\d{3}-\d{3}-\d{4}$|\(\d{3}\) \d{3}\d{4}$|\(\d{3}\) \d{3}-\d{4}$/))) {
+                        document.getElementById("phoneNumberDiv").className += " " + "has-error";
+                        phoneNumber.className += " " + "error";
+                        valid = false;
+                    }
+                }
+
+                var inputEmail = document.getElementById("inputEmail");
+                if (userRef.email != inputEmail.value) {
+                    if (inputEmail.value == '' || inputEmail.value.indexOf('@') < 1 || inputEmail.value.indexOf('.') < 3) {
+                        document.getElementById("inputEmailDiv").className += " " + "has-error";
+                        inputEmail.className += " " + "error";
+                        valid = false;
+                    }
+
+                    var confirmEmail = document.getElementById("confirmEmail");
+                    if (confirmEmail.value == '' || inputEmail.value != confirmEmail.value) {
+                        document.getElementById("inputEmailDiv").className += " " + "has-error";
+                        inputEmail.className += " " + "error";
+                        document.getElementById("confirmEmailDiv").className += " " + "has-error";
+                        confirmEmail.className += " " + "error";
+                        valid = false;
+                    } else {
+                        userRef.email = inputEmail.value;
+                    }
+                }
+
+                if (valid) {
+                    window.location.reload();
+                }
+            }
         </script>
     </head>
     
@@ -66,10 +143,10 @@
                 <div id="picturePanel" class="panel-body">
                     <form role="form">
                         <div class="form-group">
-                            <a href="#"><img id="profilePicture"/></a>
+                            <a href="#"><img id="profilePicture" src="../img/default_profile.jpg"/></a>
                         </div>
-                        <div class="form-group">
-                            <input id="displayName" type="text" class="form-control">
+                        <div id="displayNameDiv" class="form-group">
+                            <input id="displayName" type="text" class="form-control" placeholder="Display Name">
                         </div>
                         <div class="form-group text-center">
                             <button type="button" class="btn btn-primary" onclick="logout()">Logout</button>
@@ -108,24 +185,24 @@
                         <form role="form">
                             <form class="form-inline" role="form">
                                 <div id="firstNameDiv" class="form-group col-md-5">
-                                    <input id="firstName" type="text" class="form-control">
+                                    <input id="firstName" type="text" class="form-control" placeholder="First Name">
                                 </div>
                                 <div class="form-group col-md-2">
-                                    <input id="mi" type="text" class="form-control">
+                                    <input id="mi" type="text" class="form-control" placeholder="MI">
                                 </div>
                                 <div id="lastNameDiv" class="form-group col-md-5">
-                                    <input id="lastName" type="text" class="form-control">
+                                    <input id="lastName" type="text" class="form-control" placeholder="Last Name">
                                 </div>
                             </form>
                             <div id="phoneNumberDiv" class="form-group col-md-12">
-                                <input id="phoneNumber" type="text" class="form-control bfh-phone">
+                                <input id="phoneNumber" type="text" class="form-control bfh-phone" placeholder="Phone Number">
                             </div>
                         </form>
                     </div>
                     <div id="emailTab" class="hide">
                         <form role="form">
                             <div id="inputEmailDiv" class="form-group col-md-12">
-                                <input id="inputEmail" type="email" class="form-control">
+                                <input id="inputEmail" type="email" class="form-control" placeholder="Email Address">
                             </div>
                             <div id="confirmEmailDiv" class="form-group col-md-12">
                                 <input id="confirmEmail" type="email" class="form-control" placeholder="Confirm Email Address to Change">
@@ -159,13 +236,27 @@
                 userId = localStorage.id;
                 var userRef = new Firebase("https://hvz-utulsa.firebaseio.com/users/" + userId);
                 userRef.on('value', function(state) {
-                    document.getElementById("profilePicture").src = state.val().picture != "" ? state.val().picture : "../img/defalt_profile";
-                    document.getElementById("displayName").placeholder = state.val().displayName != "" ? state.val().displayName : "Display Name";
-                    document.getElementById("firstName").placeholder = state.val().name.first != "" ? state.val().name.first : "First Name";
-                    document.getElementById("mi").placeholder = state.val().name.middle != "" ? state.val().name.middle : "MI";
-                    document.getElementById("lastName").placeholder = state.val().name.last != "" ? state.val().name.last : "Last Name";
-                    document.getElementById("phoneNumber").placeholder = state.val().phone != "" ? state.val().phone : "Phone Number";
-                    document.getElementById("inputEmail").placeholder = state.val().email != "" ? state.val().email : "Email Address";
+                    if (state.val().picture != "") {
+                        document.getElementById("profilePicture").src = state.val().picture;
+                    }
+                    if (state.val().displayName != "") {
+                        document.getElementById("displayName").value = state.val().displayName;
+                    }
+                    if (state.val().name.first != "") {
+                        document.getElementById("firstName").value = state.val().name.first;
+                    }
+                    if (state.val().name.middle != "") {
+                        document.getElementById("mi").value = state.val().name.middle;
+                    }
+                    if (state.val().name.last != "") {
+                        document.getElementById("lastName").value = state.val().name.last;
+                    }
+                    if (state.val().phone != "") {
+                        document.getElementById("phoneNumber").value = state.val().phone;
+                    }
+                    if (state.val().email != "") {
+                        document.getElementById("inputEmail").value = state.val().email;
+                    }
                 });
             }
         </script>

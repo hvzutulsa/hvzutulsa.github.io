@@ -12,6 +12,10 @@
 	display: none;
 }
 
+.error {
+    color: red;
+}
+
 #playerPanel {
 	width: 100%;
 	height: auto;
