@@ -34,7 +34,7 @@
             function updateAuthPanel() {
                 if(typeof(localStorage) != undefined) {
                     var authPanel = document.getElementById("authPanel");
-                    if(typeof(localStorage.id) != "undefined") {
+                    if(localStorage.id != "undefined") {
                         var username = document.createElement("a");
                         username.href = "../profile/profile.html";
                         username.innerHTML = "<h3 id='userName'>" + localStorage.id + "</h3>";
