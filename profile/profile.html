@@ -220,9 +220,21 @@
                                 if (error) {
                                     console.log(error);
                                     console.log("couldn't change password");
-                                    document.getElementById("oldPasswordDiv").className += " " + "has-error";
-                                    oldPassword.className += " " + "error";
-                                    valid = false;
+                                    if (error.code == "INVALID_USER") {
+                                        auth.createUser(state.val().email, newPassword.value, function(error, user) {
+                                            if (error) {
+                                                console.log(error);
+                                                console.log("couldn't create user");
+                                                document.getElementById("oldPasswordDiv").className += " " + "has-error";
+                                                oldPassword.className += " " + "error";
+                                                valid = false;
+                                            } else if (user) {
+                                                console.log(user);
+                                                console.log("created user");
+                                            }
+                                        });
+                                    } 
+                                    
                                 } else {
                                     console.log(success);
                                     console.log("password changed");
