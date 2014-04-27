@@ -410,20 +410,20 @@
                         } else {
                             document.getElementById("currentStatus").value = "Zombie";
                         }
+                        document.getElementById("wantedRanking").value = state.val().stats.wanted;
+                        document.getElementById("fearedRanking").value = state.val().stats.feared;
+                        document.getElementById("fodder").value = state.val().stats.fodder.id;
+                        document.getElementById("hunter").value = state.val().stats.hunter.id;
+                        document.getElementById("fodderCount").value = state.val().stats.fodder.count;
+                        document.getElementById("hunterCount").value = state.val().stats.hunter.count;
+                        document.getElementById("turnedBy").value = state.val().stats.turnedBy;
+                        document.getElementById("stunCount").value = state.val().stats.stuns.total;
+                        document.getElementById("turnCount").value = state.val().stats.turns.total;
+                        document.getElementById("confirmedStuns").value = state.val().stats.stuns.confirmed.count;
+                        document.getElementById("confirmedTurns").value = state.val().stats.turns.confirmed.count;
+                        document.getElementById("unconfirmedStuns").value = state.val().stats.stuns.unconfirmed.count;
+                        document.getElementById("unconfirmedTurns").value = state.val().stats.turns.unconfirmed.count;
                     }
-                    document.getElementById("wantedRanking").value = state.val().stats.wanted;
-                    document.getElementById("fearedRanking").value = state.val().stats.feared;
-                    document.getElementById("fodder").value = state.val().stats.fodder.id;
-                    document.getElementById("hunter").value = state.val().stats.hunter.id;
-                    document.getElementById("fodderCount").value = state.val().stats.fodder.count;
-                    document.getElementById("hunterCount").value = state.val().stats.hunter.count;
-                    document.getElementById("turnedBy").value = state.val().stats.turnedBy;
-                    document.getElementById("stunCount").value = state.val().stats.stuns.total;
-                    document.getElementById("turnCount").value = state.val().stats.turns.total;
-                    document.getElementById("confirmedStuns").value = state.val().stats.stuns.confirmed.count;
-                    document.getElementById("confirmedTurns").value = state.val().stats.turns.confirmed.count;
-                    document.getElementById("unconfirmedStuns").value = state.val().stats.unconfirmed.count;
-                    document.getElementById("unconfirmedTurns").value = state.val().stats.unconfirmed.count;
                 });
             }
         </script>
