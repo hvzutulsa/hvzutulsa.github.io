@@ -66,10 +66,10 @@
                 <div id="picturePanel" class="panel-body">
                     <form role="form">
                         <div class="form-group">
-                            <a href="#"><img id="profilePicture" src="../img/default_profile.jpg"/></a>
+                            <a href="#"><img id="profilePicture"/></a>
                         </div>
                         <div class="form-group">
-                            <input id="displayName" type="text" class="form-control" placeholder="Display Name">
+                            <input id="displayName" type="text" class="form-control">
                         </div>
                         <div class="form-group text-center">
                             <button type="button" class="btn btn-primary" onclick="logout()">Logout</button>
@@ -108,24 +108,24 @@
                         <form role="form">
                             <form class="form-inline" role="form">
                                 <div id="firstNameDiv" class="form-group col-md-5">
-                                    <input id="firstName" type="text" class="form-control" placeholder="First Name">
+                                    <input id="firstName" type="text" class="form-control">
                                 </div>
                                 <div class="form-group col-md-2">
-                                    <input id="mi" type="text" class="form-control" placeholder="MI">
+                                    <input id="mi" type="text" class="form-control">
                                 </div>
                                 <div id="lastNameDiv" class="form-group col-md-5">
-                                    <input id="lastName" type="text" class="form-control" placeholder="Last Name">
+                                    <input id="lastName" type="text" class="form-control">
                                 </div>
                             </form>
                             <div id="phoneNumberDiv" class="form-group col-md-12">
-                                <input id="phoneNumber" type="text" class="form-control bfh-phone" placeholder="Phone Number">
+                                <input id="phoneNumber" type="text" class="form-control bfh-phone">
                             </div>
                         </form>
                     </div>
                     <div id="emailTab" class="hide">
                         <form role="form">
                             <div id="inputEmailDiv" class="form-group col-md-12">
-                                <input id="inputEmail" type="email" class="form-control" placeholder="Email Address">
+                                <input id="inputEmail" type="email" class="form-control">
                             </div>
                             <div id="confirmEmailDiv" class="form-group col-md-12">
                                 <input id="confirmEmail" type="email" class="form-control" placeholder="Confirm Email Address to Change">
@@ -159,13 +159,13 @@
                 userId = localStorage.id;
                 var userRef = new Firebase("https://hvz-utulsa.firebaseio.com/users/" + userId);
                 userRef.on('value', function(state) {
-                    document.getElementById("profilePicture").src = state.val().picture;
-                    document.getElementById("displayName").placeholder = state.val().displayName;
-                    document.getElementById("firstName").placeholder = state.val().name.first;
-                    document.getElementById("mi").placeholder = state.val().name.middle;
-                    document.getElementById("lastName").placeholder = state.val().name.last;
-                    document.getElementById("phoneNumber").placeholder = state.val().phone;
-                    document.getElementById("inputEmail").placeholder = state.val().email;
+                    document.getElementById("profilePicture").src = state.val() != "" ? state.val().picture : "../img/defalt_profile";
+                    document.getElementById("displayName").placeholder = state.val() != "" ? state.val().displayName : "Display Name";
+                    document.getElementById("firstName").placeholder = state.val() != "" ? state.val().name.first : "First Name";
+                    document.getElementById("mi").placeholder = state.val() != "" ? state.val().name.middle : "MI";
+                    document.getElementById("lastName").placeholder = state.val() != "" ? state.val().name.last : "Last Name";
+                    document.getElementById("phoneNumber").placeholder = state.val() != "" ? state.val().phone : "Phone Number";
+                    document.getElementById("inputEmail").placeholder = state.val() != "" ? state.val().email : "Email Address";
                 });
             }
         </script>
