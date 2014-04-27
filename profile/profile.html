@@ -159,13 +159,13 @@
                 userId = localStorage.id;
                 var userRef = new Firebase("https://hvz-utulsa.firebaseio.com/users/" + userId);
                 userRef.on('value', function(state) {
-                    document.getElementById("profilePicture").src = state.val() != "" ? state.val().picture : "../img/defalt_profile";
-                    document.getElementById("displayName").placeholder = state.val() != "" ? state.val().displayName : "Display Name";
-                    document.getElementById("firstName").placeholder = state.val() != "" ? state.val().name.first : "First Name";
-                    document.getElementById("mi").placeholder = state.val() != "" ? state.val().name.middle : "MI";
-                    document.getElementById("lastName").placeholder = state.val() != "" ? state.val().name.last : "Last Name";
-                    document.getElementById("phoneNumber").placeholder = state.val() != "" ? state.val().phone : "Phone Number";
-                    document.getElementById("inputEmail").placeholder = state.val() != "" ? state.val().email : "Email Address";
+                    document.getElementById("profilePicture").src = state.val().picture != "" ? state.val().picture : "../img/defalt_profile";
+                    document.getElementById("displayName").placeholder = state.val().displayName != "" ? state.val().displayName : "Display Name";
+                    document.getElementById("firstName").placeholder = state.val().name.first != "" ? state.val().name.first : "First Name";
+                    document.getElementById("mi").placeholder = state.val().name.middle != "" ? state.val().name.middle : "MI";
+                    document.getElementById("lastName").placeholder = state.val().name.last != "" ? state.val().name.last : "Last Name";
+                    document.getElementById("phoneNumber").placeholder = state.val().phone != "" ? state.val().phone : "Phone Number";
+                    document.getElementById("inputEmail").placeholder = state.val().email != "" ? state.val().email : "Email Address";
                 });
             }
         </script>
