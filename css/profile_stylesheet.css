@@ -1,6 +1,41 @@
-#profilePanel {
-	width: 40%;
-	height: auto;
+#mainPanel {
+	width: 60%;
 	margin: auto;
-	margin-top: 10%;
+	margin-top: 2.5%;
+}
+
+.tabs {
+	margin-bottom: 10px;
+}
+
+.hide {
+	display: none;
+}
+
+#playerPanel {
+	width: 100%;
+	height: auto;
+}
+
+#picturePanel {
+	width: 184px;
+	height: auto;
+	float: left;
+	display: inline-block;
+}
+
+#profilePicture {
+	width: 100%;
+	height: 184px;
+}
+
+#infoPanel {
+	width: auto;
+	height: auto;
+	display: inline-block;
+}
+
+#profilePanel {
+	width: 100%;
+	height: auto;
 }

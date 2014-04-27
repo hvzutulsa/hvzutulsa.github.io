@@ -11,7 +11,7 @@
                 if (error) {
                     // an error occurred when the user attempted to login
                     if (typeof(localStorage) != undefined) {
-                        localStorage.clear();
+                        localStorage.id = "undefined";
                     }
                 } else if (user) {
                     redirect();
@@ -30,7 +30,7 @@
                     } else {
                         // an error occurred when the user attempted to login
                         if (typeof(localStorage) != undefined) {
-                            localStorage.clear();
+                            localStorage = "undefined";
                         }
                     }
                 });
@@ -41,7 +41,7 @@
             }
 
             function saveUser(userId, userEmail) {
-                var userRef = new Firebase("https://hvz-utulsa.firebaseio.com/users/" + userId;
+                var userRef = new Firebase("https://hvz-utulsa.firebaseio.com/users/" + userId);
                 var userInfo = {
                     name: {
                         first: document.getElementById("firstName").value,

@@ -11,48 +11,143 @@
                 if (error) {
                     // an error occurred when the user attempted to login
                     if (typeof(localStorage) != undefined) {
-                        localStorage.clear();
+                        localStorage.id = "undefined";
                     }
                 }
             });
+
+            function emailActive() {
+                document.getElementById("profileTab").className = "hide";
+                document.getElementById("profileElement").className = "";
+                document.getElementById("passwordTab").className = "hide";
+                document.getElementById("passwordElement").className = "";
+                document.getElementById("emailTab").className = "";
+                document.getElementById("emailElement").className = "active";
+            }
+
+            function passwordActive() {
+                document.getElementById("profileTab").className = "hide";
+                document.getElementById("profileElement").className = "";
+                document.getElementById("emailTab").className = "hide";
+                document.getElementById("emailElement").className = "";
+                document.getElementById("passwordTab").className = "";
+                document.getElementById("passwordElement").className = "active";
+            }
+
+            function profileActive() {
+                document.getElementById("emailTab").className = "hide";
+                document.getElementById("emailElement").className = "";
+                document.getElementById("passwordTab").className = "hide";
+                document.getElementById("passwordElement").className = "";
+                document.getElementById("profileTab").className = "";
+                document.getElementById("profileElement").className = "active";
+            }
         </script>
     </head>
     
     <body>
-        <div id="profilePanel" class="panel panel-default">
-            <div class="panel-body">
-                <div class="text-center">
-                    <h1>Profile</h1>
-                </div>
-                <form role="form">
-                    <form class="form-inline" role="form">
-                        <div id="firstNameDiv" class="form-group col-md-5">
-                            <input id="firstName" type="text" class="form-control" placeholder="*First Name">
+        <div id="mainPanel" class="panel panel-default">
+            <div id="playerPanel" class="panel-body">
+                <div id="picturePanel" class="panel-body">
+                    <form role="form">
+                        <div class="form-group">
+                            <a href="#"><img id="profilePicture" src="../img/default_profile.jpg"/></a>
                         </div>
-                        <div class="form-group col-md-2">
-                            <input id="mi" type="text" class="form-control" placeholder="MI">
+                        <div class="form-group">
+                            <input id="displayName" type="text" class="form-control" placeholder="Display Name">
                         </div>
-                        <div id="lastNameDiv" class="form-group col-md-5">
-                            <input id="lastName" type="text" class="form-control" placeholder="*Last Name">
+                        <div class="form-group text-center">
+                            <button type="button" class="btn btn-primary" onclick="">Logout</button>
                         </div>
                     </form>
-                    <div id="phoneNumberDiv" class="form-group col-md-12">
-                        <input id="phoneNumber" type="text" class="form-control bfh-phone" placeholder="Phone Number">
+                </div>
+                <div id="infoPanel" class="panel-body">
+                    <ul class="nav nav-tabs tabs">
+                        <li class="active"><a onclick="">Status</a></li>
+                        <li><a onclick="">Stats</a></li>
+                    </ul>
+                    <form class="form-horizontal" role="form">
+                        <div class="form-group">
+                            <label for="currentStatus" class="col-md-4 control-label">Status</label>
+                            <div class="col-md-8">
+                                <input id="currentStatus" type="text" class="form-control" placeholder="Not playing" disabled>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="currentBiteTag" class="col-md-4 control-label">Bite Tag</label>
+                            <div class="col-md-8">
+                                <input id="currentBiteTag" type="text" class="form-control" placeholder="None" disabled>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div id="profilePanel" class="panel-body">
+                <div class="panel-body">
+                    <ul class="nav nav-tabs tabs">
+                        <li id="profileElement" class="active"><a onclick="profileActive()">Profile</a></li>
+                        <li id="emailElement"><a onclick="emailActive()">Email</a></li>
+                        <li id="passwordElement"><a onclick="passwordActive()">Password</a></li>
+                    </ul>
+                    <div id="profileTab">
+                        <form role="form">
+                            <form class="form-inline" role="form">
+                                <div id="firstNameDiv" class="form-group col-md-5">
+                                    <input id="firstName" type="text" class="form-control" placeholder="First Name">
+                                </div>
+                                <div class="form-group col-md-2">
+                                    <input id="mi" type="text" class="form-control" placeholder="MI">
+                                </div>
+                                <div id="lastNameDiv" class="form-group col-md-5">
+                                    <input id="lastName" type="text" class="form-control" placeholder="Last Name">
+                                </div>
+                            </form>
+                            <div id="phoneNumberDiv" class="form-group col-md-12">
+                                <input id="phoneNumber" type="text" class="form-control bfh-phone" placeholder="Phone Number">
+                            </div>
+                        </form>
                     </div>
-                    <div id="inputEmailDiv" class="form-group col-md-12">
-                        <input id="inputEmail" type="email" class="form-control" placeholder="*Email Address">
+                    <div id="emailTab" class="hide">
+                        <form role="form">
+                            <div id="inputEmailDiv" class="form-group col-md-12">
+                                <input id="inputEmail" type="email" class="form-control" placeholder="Email Address">
+                            </div>
+                            <div id="confirmEmailDiv" class="form-group col-md-12">
+                                <input id="confirmEmail" type="email" class="form-control" placeholder="Confirm Email Address to Change">
+                            </div>
+                        </form>
                     </div>
-                    <div class="text-center">
-                        <a href="../home/home.html" class="btn btn-primary">Home</a>
+                    <div id="passwordTab" class="hide">
+                        <form role="form">
+                            <div id="oldPasswordDiv" class="form-group col-md-12">
+                                <input id="oldPassword" type="password" class="form-control" placeholder="Current Password">
+                            </div>
+                            <div id="newPasswordDiv" class="form-group col-md-12">
+                                <input id="newPasswordDiv" type="password" class="form-control" placeholder="New Password">
+                            </div>
+                            <div id="confirmPasswordDiv" class="form-group col-md-12">
+                                <input id="confirmPassword" type="password" class="form-control" placeholder="Confirm New Password">
+                            </div>
+                        </form>
                     </div>
-                </form>
+                    <div id="buttonPanel">
+                        <div class="col-md-4">
+                            <button type="button" class="btn btn-primary" onclick="">Home</button>
+                        </div>
+                        <div class="col-md-4 text-center">
+                            <button type="button" class="btn btn-primary" onclick="">Save Changes</button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         <script type="text/javascript">
             if (typeof(localStorage) != undefined) {
                 userId = localStorage.id;
-                var userRef = new Firebase("https://hvz-utulsa.firebaseio.com/users/" + userId.replace(".","-"));
+                var userRef = new Firebase("https://hvz-utulsa.firebaseio.com/users/" + userId);
                 userRef.on('value', function(state) {
+                    document.getElementById("profilePicture").src = state.val().picture;
+                    document.getElementById("displayName").placeholder = state.val().displayName;
                     document.getElementById("firstName").placeholder = state.val().name.first;
                     document.getElementById("mi").placeholder = state.val().name.middle;
                     document.getElementById("lastName").placeholder = state.val().name.last;

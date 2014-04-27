@@ -69,7 +69,7 @@
 
             function logout() {
                 if (typeof(localStorage) != undefined) {
-                    localStorage.clear();
+                    localStorage.id = "undefined";
                 }
                 updateAuthPanel();
             }

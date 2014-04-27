@@ -12,7 +12,7 @@
             	if (error) {
             		// an error occurred when the user attempted to login
                     if (typeof(localStorage) != undefined) {
-                        localStorage.clear();
+                        localStorage.id = "undefined";
                     }
 				} else if (user) {
 				    // user authenticated with Firebase
@@ -129,6 +129,7 @@
                 	}
                 }
                 userRef.set(userInfo);
+                redirect();
             }
 
             function saveUserCredentials(user) {
