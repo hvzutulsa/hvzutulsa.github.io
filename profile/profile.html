@@ -58,78 +58,80 @@
             function validateForm() {
                 var userId = localStorage.id;
                 var userRef = new Firebase("https://hvz-utulsa.firebaseio.com/users/" + userId);
-                var valid = true;
-                
-                var displayName = document.getElementById("displayName");
-                if (userRef.displayName != displayName.value) {
-                    if (displayName.value == '') {
-                        document.getElementById("displayNameDiv").className += " " + "has-error";
-                        firstName.className += " " + "error";
-                        valid = false;
-                    } else {
-                        userRef.displayName = displayName.value;
-                    }
-                }
+                userRef.once('value', function(state) {
+                    var valid = true;
 
-                var firstName = document.getElementById("firstName");
-                if (userRef.name.first != firstName.value) {
-                    if (firstName.value == '') {
-                        document.getElementById("firstNameDiv").className += " " + "has-error";
-                        firstName.className += " " + "error";
-                        valid = false;
-                    } else {
-                        userRef.name.first = firstName.value;
-                    }
-                }
-                
-                var middleInitial = document.getElementById("mi");
-                if (userRef.name.middle != middleInitial.value) {
-                    userRef.name.middle = middleInitial.value;
-                }
-                
-                var lastName = document.getElementById("lastName");
-                if (userRef.name.last != lastName.value) {
-                    if (lastName.value == '') {
-                        document.getElementById("lastNameDiv").className += " " + "has-error";
-                        lastName.className += " " + "error";
-                        valid = false;
-                    } else {
-                        userRef.name.last = lastName.value;
-                    }
-                }
-
-                var phoneNumber = document.getElementById("phoneNumber");
-                if (userRef.phone != phoneNumber.value) {
-                    if (phoneNumber.value != '' && !(phoneNumber.value.match(/\d{10}$|\d{3}-\d{3}-\d{4}$|\(\d{3}\) \d{3}\d{4}$|\(\d{3}\) \d{3}-\d{4}$/))) {
-                        document.getElementById("phoneNumberDiv").className += " " + "has-error";
-                        phoneNumber.className += " " + "error";
-                        valid = false;
-                    }
-                }
-
-                var inputEmail = document.getElementById("inputEmail");
-                if (userRef.email !== inputEmail.value) {
-                    if (inputEmail.value == '' || inputEmail.value.indexOf('@') < 1 || inputEmail.value.indexOf('.') < 3) {
-                        document.getElementById("inputEmailDiv").className += " " + "has-error";
-                        inputEmail.className += " " + "error";
-                        valid = false;
+                    var displayName = document.getElementById("displayName");
+                    if (state.val().displayName != displayName.value) {
+                        if (displayName.value == '') {
+                            document.getElementById("displayNameDiv").className += " " + "has-error";
+                            firstName.className += " " + "error";
+                            valid = false;
+                        } else {
+                            userRef.displayName = displayName.value;
+                        }
                     }
 
-                    var confirmEmail = document.getElementById("confirmEmail");
-                    if (confirmEmail.value == '' || inputEmail.value != confirmEmail.value) {
-                        document.getElementById("inputEmailDiv").className += " " + "has-error";
-                        inputEmail.className += " " + "error";
-                        document.getElementById("confirmEmailDiv").className += " " + "has-error";
-                        confirmEmail.className += " " + "error";
-                        valid = false;
-                    } else {
-                        userRef.email = inputEmail.value;
+                    var firstName = document.getElementById("firstName");
+                    if (state.val().name.first != firstName.value) {
+                        if (firstName.value == '') {
+                            document.getElementById("firstNameDiv").className += " " + "has-error";
+                            firstName.className += " " + "error";
+                            valid = false;
+                        } else {
+                            userRef.name.first = firstName.value;
+                        }
                     }
-                }
 
-                if (valid) {
-                    window.location.reload();
-                }
+                    var middleInitial = document.getElementById("mi");
+                    if (state.val().name.middle != middleInitial.value) {
+                        userRef.name.middle = middleInitial.value;
+                    }
+
+                    var lastName = document.getElementById("lastName");
+                    if (state.val().name.last != lastName.value) {
+                        if (lastName.value == '') {
+                            document.getElementById("lastNameDiv").className += " " + "has-error";
+                            lastName.className += " " + "error";
+                            valid = false;
+                        } else {
+                            userRef.name.last = lastName.value;
+                        }
+                    }
+
+                    var phoneNumber = document.getElementById("phoneNumber");
+                    if (state.val().phone != phoneNumber.value) {
+                        if (phoneNumber.value != '' && !(phoneNumber.value.match(/\d{10}$|\d{3}-\d{3}-\d{4}$|\(\d{3}\) \d{3}\d{4}$|\(\d{3}\) \d{3}-\d{4}$/))) {
+                            document.getElementById("phoneNumberDiv").className += " " + "has-error";
+                            phoneNumber.className += " " + "error";
+                            valid = false;
+                        }
+                    }
+
+                    var inputEmail = document.getElementById("inputEmail");
+                    if (state.val().email !== inputEmail.value) {
+                        if (inputEmail.value == '' || inputEmail.value.indexOf('@') < 1 || inputEmail.value.indexOf('.') < 3) {
+                            document.getElementById("inputEmailDiv").className += " " + "has-error";
+                            inputEmail.className += " " + "error";
+                            valid = false;
+                        }
+
+                        var confirmEmail = document.getElementById("confirmEmail");
+                        if (confirmEmail.value == '' || inputEmail.value != confirmEmail.value) {
+                            document.getElementById("inputEmailDiv").className += " " + "has-error";
+                            inputEmail.className += " " + "error";
+                            document.getElementById("confirmEmailDiv").className += " " + "has-error";
+                            confirmEmail.className += " " + "error";
+                            valid = false;
+                        } else {
+                            userRef.email = inputEmail.value;
+                        }
+                    }
+
+                    if (valid) {
+                        window.location.reload();
+                    }
+                });
             }
         </script>
     </head>
@@ -235,7 +237,7 @@
             if (typeof(localStorage) != undefined) {
                 userId = localStorage.id;
                 var userRef = new Firebase("https://hvz-utulsa.firebaseio.com/users/" + userId);
-                userRef.on('value', function(state) {
+                userRef.once('value', function(state) {
                     if (state.val().picture != "") {
                         document.getElementById("profilePicture").src = state.val().picture;
                     }

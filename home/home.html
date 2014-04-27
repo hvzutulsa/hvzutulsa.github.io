@@ -50,14 +50,17 @@
                     if(localStorage.id != "undefined") {
                         var userId = localStorage.id;
                         var userRef = new Firebase("https://hvz-utulsa.firebaseio.com/users/" + userId);
+                        userRef.once('value', function(state) {
+                            var username = document.createElement("a");
+                            username.href = "../profile/profile.html";
+                            username.innerHTML = "<h3 id='userName'>" + state.val().displayName + "</h3>";
+                        });
                         
-                        var username = document.createElement("a");
-                        username.href = "../profile/profile.html";
-                        username.innerHTML = "<h3 id='userName'>" + userRef.displayName + "</h3>";
                         var logoutButton = document.createElement("button");
                         logoutButton.onclick = logout;
                         logoutButton.className = "btn btn-primary";
                         logoutButton.innerHTML = "Logout";
+                        
                         while(authPanel.firstChild) {
                             authPanel.removeChild(authPanel.firstChild);
                         }
@@ -69,11 +72,13 @@
                         registerButton.href = "../register/register.html";
                         registerButton.className = "btn btn-primary";
                         registerButton.innerHTML = "Register";
+                        
                         var loginButton = document.createElement("a");
                         loginButton.id = "loginButton";
                         loginButton.href = "../login/login.html";
                         loginButton.className = "btn btn-primary";
                         loginButton.innerHTML = "Login";
+                        
                         while(authPanel.firstChild) {
                             authPanel.removeChild(authPanel.firstChild);
                         }
