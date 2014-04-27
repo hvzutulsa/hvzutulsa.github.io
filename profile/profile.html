@@ -9,10 +9,15 @@
             var firebaseRef = new Firebase("https://hvz-utulsa.firebaseio.com/");
             var auth = new FirebaseSimpleLogin(firebaseRef, function(error, user) {
                 if (error) {
+                    console.log(error);
+                    console.log("init error");
                     // an error occurred when the user attempted to login
                     if (typeof(localStorage) != undefined) {
                         localStorage.id = undefined;
                     }
+                } else {
+                    console.log(user);
+                    console.log("init user");
                 }
             });
 
@@ -38,16 +43,20 @@
 
                     if (passwordDelete.value != "none") {
                         userRef.once('value', function(state) {
+                            console.log(state);
+                            console.log("to be deleted");
                             auth.removeUser(state.val().email, passwordDelete.value, function(error, success) {
                                 if (!error) {
                                     console.log("user deleted");
                                 } else {
                                     console.log(error);
+                                    console.log("couldn't delete");
                                 }
                             });
                         });
                     }
 
+                    console.log("user removed");
                     userRef.remove();
                     logout();
                 }
@@ -69,7 +78,7 @@
                     localStorage.id = undefined;
                 }
                 auth.logout();
-                redirect();
+                <!--redirect();-->
             }
 
             function passwordActive() {
@@ -116,6 +125,8 @@
                 var userId = localStorage.id;
                 var userRef = new Firebase("https://hvz-utulsa.firebaseio.com/users/" + userId);
                 userRef.once('value', function(state) {
+                    console.log(state);
+                    console.log("validation");
                     var valid = false;
 
                     var displayName = document.getElementById("displayName");
@@ -205,40 +216,16 @@
                             confirmPassword.className += " " + "error";
                             valid = false;
                         } else {
-                            var firebaseRef = new Firebase("https://hvz-utulsa.firebaseio.com");
-                            var auth = new FirebaseSimpleLogin(firebaseRef, function(error, user) {
-                                if (user) {
-                                    console.log(user);
-                                    if (user.provider == 'password') {
-                                        auth.changePassword(state.val().email, oldPassword.value, newPassword.value, function(error, success) {
-                                            if (error) {
-                                                console.log(error);
-                                                document.getElementById("oldPasswordDiv").className += " " + "has-error";
-                                                oldPassword.className += " " + "error";
-                                                valid = false;
-                                            }
-                                        });
-                                    } else {
-                                        auth.createUser(state.val().email, newPassword.value, function(error, user) {
-                                            if (error) {
-                                                console.log(error);
-                                                if (error.code == "EMAIL_TAKEN") {
-                                                    auth.changePassword(state.val().email, oldPassword.value, newPassword.value, function(error, success) {
-                                                        if (error) {
-                                                            console.log(error);
-                                                            document.getElementById("oldPasswordDiv").className += " " + "has-error";
-                                                            oldPassword.className += " " + "error";
-                                                            valid = false;
-                                                        }
-                                                    });
-                                                } else {
-                                                    document.getElementById("oldPasswordDiv").className += " " + "has-error";
-                                                    oldPassword.className += " " + "error";
-                                                    valid = false;
-                                                }
-                                            }
-                                        });
-                                    }
+                            auth.changePassword(state.val().email, oldPassword.value, newPassword.value, function(error, success) {
+                                if (error) {
+                                    console.log(error);
+                                    console.log("couldn't change password");
+                                    document.getElementById("oldPasswordDiv").className += " " + "has-error";
+                                    oldPassword.className += " " + "error";
+                                    valid = false;
+                                } else {
+                                    console.log(success);
+                                    console.log("password changed");
                                 }
                             });
                         }   
@@ -259,7 +246,7 @@
                     }
 
                     if (valid) {
-                        window.location.reload();
+                        <!--window.location.reload()-->;
                     }
                 });
             }

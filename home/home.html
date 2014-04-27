@@ -10,11 +10,16 @@
             var firebaseRef = new Firebase("https://hvz-utulsa.firebaseio.com/");
             var auth = new FirebaseSimpleLogin(firebaseRef, function(error, user) {
             	if (error) {
+                    console.log(error);
+                    console.log("init error");
             		// an error occurred when the user attempted to login
                     if (typeof(localStorage) != undefined) {
                         localStorage.id = undefined;
                     }
-				}
+				} else {
+                    console.log(user);
+                    console.log("init user");
+                }
             });
         </script>
     </head>

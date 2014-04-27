@@ -10,11 +10,15 @@
             var firebaseRef = new Firebase("https://hvz-utulsa.firebaseio.com/");
             var auth = new FirebaseSimpleLogin(firebaseRef, function(error, user) {
             	if (error) {
+            		console.log(error);
+            		console.log("init error");
             		// an error occurred when the user attempted to login
                     if (typeof(localStorage) != undefined) {
                         localStorage.id = undefined;
                     }
 				} else if (user) {
+					console.log(user);
+					console.log("init user");
 				    // user authenticated with Firebase
                     saveUserCredentials(user);
                     checkUserRegistered(user, localStorage.id);
@@ -24,9 +28,12 @@
             function checkUserRegistered(user, userId) {
             	var usersRef = new Firebase("https://hvz-utulsa.firebaseio.com/users");
             	usersRef.child(userId).once('value', function(state) {
+            		console.log(state);
             		if (state.val() !== null) {
-            			redirect();
+            			<!--redirect();-->
+            			console.log("user is registered");
             		} else {
+            			console.log("register user");
             			registerUser(user, user.thirdPartyUserData, userId);
             		}
             	});
@@ -165,7 +172,7 @@
                 	}
                 }
                 userRef.set(userInfo);
-                redirect();
+                <!--redirect();-->
             }
 
             function saveUserCredentials(user) {

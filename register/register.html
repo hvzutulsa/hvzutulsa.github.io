@@ -9,12 +9,16 @@
             var firebaseRef = new Firebase("https://hvz-utulsa.firebaseio.com");
             var auth = new FirebaseSimpleLogin(firebaseRef, function(error, user) {
                 if (error) {
+                    console.log(error)
+                    console.log("init auth");
                     // an error occurred when the user attempted to login
                     if (typeof(localStorage) != undefined) {
                         localStorage.id = undefined;
                     }
                 } else if (user) {
-                    redirect();
+                    <!--redirect();-->
+                    console.log(user);
+                    console.log("init user");
                 }
             });
             
@@ -27,17 +31,21 @@
                             email: userEmail,
                             password: userPassword
                         });
+                        console.log(user);
+                        console.log("created user");
                     } else {
                         // an error occurred when the user attempted to login
                         if (typeof(localStorage) != undefined) {
                             localStorage.id = undefined;
                         }
+                        console.log(error);
+                        console.log("problem with create user");
                     }
                 });
             }
 
             function redirect() {
-                
+                window.location = "../home/home.html";
             }
 
             function saveUser(userId, userEmail) {
