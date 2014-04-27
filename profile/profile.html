@@ -6,6 +6,15 @@
         <script type="text/javascript" src='https://cdn.firebase.com/js/client/1.0.11/firebase.js'></script>
         <script type="text/javascript" src='https://cdn.firebase.com/js/simple-login/1.3.2/firebase-simple-login.js'></script>
         <script type="text/javascript">
+            var firebaseRef = new Firebase("https://hvz-utulsa.firebaseio.com/");
+            var auth = new FirebaseSimpleLogin(firebaseRef, function(error, user) {
+                if (error) {
+                    // an error occurred when the user attempted to login
+                    if (typeof(localStorage) != undefined) {
+                        localStorage.id = undefined;
+                    }
+                }
+            });
 
             function emailActive() {
                 document.getElementById("profileTab").className = "hide";
@@ -20,12 +29,7 @@
                 if (typeof(localStorage) != undefined) {
                     localStorage.id = undefined;
                 }
-                var firebaseRef = new Firebase("https://hvz-utulsa.firebaseio.com");
-                var auth = new FirebaseSimpleLogin(firebaseRef, function(error, user) {
-                    if (user) {
-                        auth.logout();
-                    }
-                });
+                auth.logout();
                 redirect();
             }
 
